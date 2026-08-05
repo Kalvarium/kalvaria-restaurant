@@ -1,0 +1,20 @@
+{
+  "collectionName": "components_shared_badges",
+  "info": {
+    "displayName": "Badge",
+    "icon": "priceTag",
+    "description": "A small label shown on a card (matches the web UI Badge variants)."
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "variant": {
+      "type": "enumeration",
+      "enum": ["rust", "gold", "soft", "green"],
+      "default": "rust"
+    }
+  }
+}

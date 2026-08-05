@@ -1,0 +1,34 @@
+{
+  "collectionName": "components_shared_opening_hours",
+  "info": {
+    "displayName": "Opening Hours",
+    "icon": "clock",
+    "description": "Opening hours for a single day of the week."
+  },
+  "options": {},
+  "attributes": {
+    "day": {
+      "type": "enumeration",
+      "enum": [
+        "monday",
+        "tuesday",
+        "wednesday",
+        "thursday",
+        "friday",
+        "saturday",
+        "sunday"
+      ],
+      "required": true
+    },
+    "opens": {
+      "type": "time"
+    },
+    "closes": {
+      "type": "time"
+    },
+    "closed": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

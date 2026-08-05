@@ -1,0 +1,29 @@
+{
+  "collectionName": "components_sections_galleries",
+  "info": {
+    "displayName": "Gallery",
+    "icon": "picture",
+    "description": "A grid of photos."
+  },
+  "options": {},
+  "attributes": {
+    "background": {
+      "type": "enumeration",
+      "enum": [
+        "surface",
+        "cream",
+        "green",
+        "brown"
+      ]
+    },
+    "heading": {
+      "type": "string"
+    },
+    "images": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": ["images"],
+      "required": true
+    }
+  }
+}

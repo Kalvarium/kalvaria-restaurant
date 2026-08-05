@@ -1,0 +1,7 @@
+{
+  "extends": "@kalvaria/config/tsconfig",
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "include": ["src"]
+}

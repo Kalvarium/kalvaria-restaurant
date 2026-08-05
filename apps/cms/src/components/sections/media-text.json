@@ -1,0 +1,45 @@
+{
+  "collectionName": "components_sections_media_texts",
+  "info": {
+    "displayName": "Media + Text",
+    "icon": "landscape",
+    "description": "An image beside a heading and body copy."
+  },
+  "options": {},
+  "attributes": {
+    "background": {
+      "type": "enumeration",
+      "enum": [
+        "surface",
+        "cream",
+        "green",
+        "brown"
+      ]
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ],
+      "required": true
+    },
+    "eyebrow": {
+      "type": "string"
+    },
+    "heading": {
+      "type": "string"
+    },
+    "body": {
+      "type": "blocks"
+    },
+    "imageSide": {
+      "type": "enumeration",
+      "enum": [
+        "left",
+        "right"
+      ],
+      "default": "left"
+    }
+  }
+}

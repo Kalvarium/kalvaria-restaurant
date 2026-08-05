@@ -1,0 +1,43 @@
+{
+  "collectionName": "components_sections_heroes",
+  "info": {
+    "displayName": "Hero",
+    "icon": "picture",
+    "description": "Full-bleed hero with headline, subtitle and CTAs over a photo."
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string",
+      "required": false
+    },
+    "subtitle": {
+      "type": "text"
+    },
+    "background": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "ctas": {
+      "type": "component",
+      "component": "shared.link",
+      "repeatable": true
+    },
+    "scrim": {
+      "type": "enumeration",
+      "default": "medium",
+      "enum": [
+        "light",
+        "medium",
+        "strong"
+      ]
+    }
+  }
+}

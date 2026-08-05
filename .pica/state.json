@@ -1,0 +1,19 @@
+{
+  "figmaInScope": false,
+  "frameSize": { "w": 375, "h": 812 },
+  "responsive": { "note": "This is a responsive marketing website, not a phone app. Prototypes build mobile-first at 375 and verify at desktop 1440 (the two viewports the live-site audit measured). Deviates from pica's phone-frame default by design.", "viewports": [375, 1440] },
+  "disclosurePolicy": "",
+  "delivered": false,
+  "reconstructed": { "note": "State reconstructed on 2026-08-04. Steps 1-4 were run in a prior session: tokens (design/tokens/*) and UI kit (design/design-system.html) exist; Figma declared out of scope this session; formal state.json/contract/exclusions were never persisted. Work packages below confirmed with the human." },
+  "workPackages": {
+    "home":          { "route": "/",              "tier": "standard", "htmlApproved": true,  "ported": false },
+    "o-nas":         { "route": "/o-nas",          "tier": "standard", "htmlApproved": false, "ported": false },
+    "torty":         { "route": "/torty",          "tier": "complex",  "htmlApproved": false, "ported": false },
+    "kaviaren":      { "route": "/kaviaren",       "tier": "standard", "htmlApproved": false, "ported": false },
+    "priestor-hore": { "route": "/priestor-hore",  "tier": "complex",  "htmlApproved": false, "ported": false },
+    "galeria":       { "route": "/galeria",        "tier": "standard", "htmlApproved": false, "ported": false },
+    "kontakt":       { "route": "/kontakt",        "tier": "standard", "htmlApproved": false, "ported": false }
+  },
+  "activeReview": null,
+  "writeAuthorization": null
+}

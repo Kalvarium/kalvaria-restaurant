@@ -1,0 +1,165 @@
+@import "tailwindcss";
+
+/* Scan all app/component source so Tailwind generates the classes they use
+   (paths are relative to this file, which lives in src/styles/). */
+@source "../**/*.{ts,tsx}";
+
+/* ============================================================
+   Kalvárium design tokens → Tailwind v4 theme.
+   Mirrors design/tokens/tokens.css. origin: taken = read from the
+   live site; derived = corrected to clear a measured audit finding.
+   ============================================================ */
+@theme {
+  /* colour — brand primitives */
+  --color-cream: #f8f2e6;        /* taken */
+  --color-ivory: #ffffff;      /* white @ 90% — navbar text */
+  --color-brown-900: #2b2421;    /* taken */
+  --color-green-800: #33473a;    /* taken */
+  --color-rust-500: #a85a32;     /* taken — primary action */
+  --color-rust-600: #8f4a28;     /* derived — hover */
+  --color-gold-500: #bb9257;     /* taken — decorative */
+  --color-gold-400: #d4b585;     /* derived — legible gold (5.11:1 on green) */
+  --color-surface: #fffdf9;      /* raised surface on cream */
+
+  /* colour — text on dark (derived to fix footer contrast) */
+  --color-ink-muted: #b8ae9f;    /* derived — 6.97:1 on brown */
+  --color-ink-heading: #c6bcac;  /* derived — 8.13:1 on brown */
+
+  /* colour — borders */
+  --color-line: #e2d8c6;         /* hairline on light */
+  --color-line-dark: #4a3f36;    /* hairline on dark */
+
+  /* colour — semantic (derived). Each has a soft surface (100), border (200)
+     and readable text (800) shade for notice/alert surfaces. */
+  --color-success: #3f6f4a;
+  --color-success-100: #e8f0e8;
+  --color-success-200: #c4d8c4;
+  --color-success-800: #2c5334;
+
+  --color-error: #b23b2e;
+  --color-error-100: #f8e8e4;
+  --color-error-200: #e6c4bb;
+  --color-error-800: #8a2a1f;
+
+  --color-warning: #946213;
+  --color-warning-100: #f7efd8;
+  --color-warning-200: #e6d4a6;
+  --color-warning-800: #6f4c10;
+
+  /* type families (bound to next/font CSS variables) */
+  --font-display: var(--font-italiana), "Playfair Display", Georgia, serif; /* hero headings */
+  --font-display-alt: var(--font-playfair), Georgia, serif; /* H2/H3 headings */
+  --font-accent: var(--font-cormorant), Georgia, serif; /* regular / body text */
+  --font-ui: var(--font-jost), system-ui, -apple-system, "Segoe UI", sans-serif; /* nav, buttons, labels */
+
+  /* type scale — font-size utilities (text-*) */
+  --text-small: 13px; /* author byline, fine print */
+  --text-medium: 14px; /* footer nav links, secondary UI text */
+  --text-regular: 16px; /* body text, primary UI text */
+  --text-large: 18px; /* H3 headings, card titles */
+  --text-xl: 20px; /* H2 headings, section titles */
+  --text-2xl: 32px; /* pull quotes */
+
+  /* radius — 2px corner + full pill (taken) */
+  --radius-sm: 2px;
+  --radius-pill: 999px;
+
+  /* elevation — flat by default; a restrained lift for cards (derived) */
+  --shadow-card: 0 1px 2px rgba(43, 36, 33, 0.06), 0 8px 24px rgba(43, 36, 33, 0.08);
+}
+
+/* Non-utility tokens (used via var() in components). */
+:root {
+  --control-min-target: 44px; /* derived — iOS min tap target */
+  --hero-scrim: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(0, 0, 0, 0.55) 55%,
+    rgba(0, 0, 0, 0.55) 100%
+  ); /* derived — top stop raised 0.30→0.55 so cream type clears AA over the hero photo */
+}
+
+/* Entrance animation — hero content fades up on load (matches the deployed site).
+   Apply .animate-fade-up and stagger with an inline animation-delay. */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.animate-fade-up {
+  animation: fadeInUp 0.8s ease both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-up {
+    animation: none;
+  }
+}
+
+/* Scroll-reveal — elements fade/slide in when they enter the viewport (a .visible
+   class is toggled by the <Reveal> component's IntersectionObserver). */
+.reveal,
+.reveal-left,
+.reveal-right {
+  opacity: 0;
+  transition:
+    opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.reveal {
+  transform: translateY(28px);
+}
+.reveal-left {
+  transform: translateX(-32px);
+}
+.reveal-right {
+  transform: translateX(32px);
+}
+.reveal.visible,
+.reveal-left.visible,
+.reveal-right.visible {
+  opacity: 1;
+  transform: none;
+}
+
+.reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.reveal-stagger.visible > * {
+  opacity: 1;
+  transform: none;
+}
+.reveal-stagger.visible > :nth-child(2) {
+  transition-delay: 0.08s;
+}
+.reveal-stagger.visible > :nth-child(3) {
+  transition-delay: 0.16s;
+}
+.reveal-stagger.visible > :nth-child(4) {
+  transition-delay: 0.24s;
+}
+.reveal-stagger.visible > :nth-child(5) {
+  transition-delay: 0.32s;
+}
+.reveal-stagger.visible > :nth-child(6) {
+  transition-delay: 0.4s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal-left,
+  .reveal-right,
+  .reveal-stagger > * {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}

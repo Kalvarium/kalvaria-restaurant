@@ -1,0 +1,44 @@
+{
+  "collectionName": "components_sections_cake_grids",
+  "info": {
+    "displayName": "Cake Grid",
+    "icon": "grid",
+    "description": "Pulls cakes from the catalog. Components cannot hold relations, so 'by_category' matches on categorySlug."
+  },
+  "options": {},
+  "attributes": {
+    "background": {
+      "type": "enumeration",
+      "enum": [
+        "surface",
+        "cream",
+        "green",
+        "brown"
+      ]
+    },
+    "heading": {
+      "type": "string"
+    },
+    "intro": {
+      "type": "text"
+    },
+    "mode": {
+      "type": "enumeration",
+      "enum": [
+        "featured",
+        "all",
+        "by_category"
+      ],
+      "default": "featured",
+      "required": true
+    },
+    "categorySlug": {
+      "type": "string"
+    },
+    "limit": {
+      "type": "integer",
+      "default": 6,
+      "min": 1
+    }
+  }
+}

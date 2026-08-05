@@ -1,0 +1,32 @@
+{
+  "collectionName": "components_shared_contacts",
+  "info": {
+    "displayName": "Contact",
+    "icon": "phone",
+    "description": "Where and how to reach the café."
+  },
+  "options": {},
+  "attributes": {
+    "email": {
+      "type": "email",
+      "required": true
+    },
+    "cafePhone": {
+      "type": "string",
+      "required": true
+    },
+    "cakePhone": {
+      "type": "string"
+    },
+    "addressLine": {
+      "type": "string",
+      "required": true
+    },
+    "city": {
+      "type": "string"
+    },
+    "mapUrl": {
+      "type": "string"
+    }
+  }
+}

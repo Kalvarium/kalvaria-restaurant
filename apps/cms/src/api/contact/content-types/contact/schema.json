@@ -1,0 +1,37 @@
+{
+  "kind": "singleType",
+  "collectionName": "contacts",
+  "info": {
+    "singularName": "contact",
+    "pluralName": "contacts",
+    "displayName": "Contact",
+    "description": "Site-wide contact details, edited once and referenced across the site (header, footer and the Kontakt page): address / phone / email, opening hours, social links, and how guests reserve a table. Shared across all languages (not localized)."
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "contact": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.contact",
+      "required": true
+    },
+    "openingHours": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.opening-hours"
+    },
+    "socialLinks": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.social-link"
+    },
+    "reservation": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.reservation"
+    }
+  }
+}
