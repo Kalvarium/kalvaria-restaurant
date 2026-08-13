@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_shared_list_items",
+  "info": {
+    "displayName": "List Item",
+    "icon": "bulletList",
+    "description": "A single bullet in a feature list."
+  },
+  "options": {},
+  "attributes": {
+    "text": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

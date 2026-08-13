@@ -5,6 +5,7 @@ import type {
   TextareaHTMLAttributes,
 } from "react";
 import { cn } from "@/lib/cn";
+import { Checkbox } from "./Checkbox";
 import { Icon } from "./Icon";
 
 const controlBase =
@@ -64,10 +65,117 @@ export interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElemen
 export function Textarea({ error, className, ...props }: TextareaProps) {
   return (
     <textarea
-      className={cn(controlBase, "min-h-24 resize-y", error ? errorBorder : okBorder, className)}
+      className={cn(controlBase, "min-h-24 resize-none", error ? errorBorder : okBorder, className)}
       aria-invalid={error || undefined}
       {...props}
     />
+  );
+}
+
+/**
+ * A labelled form control driven by config (one CMS `form-field` entry). Editorial
+ * underline style: a small caps label (with `*` when required) over a serif input
+ * with only a bottom rule. Renders a `<textarea>` for `type: "textarea"`.
+ */
+export type TextFieldType =
+  | "text"
+  | "tel"
+  | "email"
+  | "date"
+  | "time"
+  | "number"
+  | "textarea"
+  | "checkbox"
+  | "select";
+export interface TextFieldProps {
+  name: string;
+  label?: string;
+  type?: TextFieldType;
+  placeholder?: string;
+  required?: boolean;
+  min?: string;
+  max?: string;
+  /** Choices for `type: "select"`. */
+  options?: { label: string; value: string }[];
+  /** Applied to the field wrapper — e.g. "sm:col-span-2" for full width. */
+  className?: string;
+}
+
+const underlineControl =
+  "w-full min-h-[var(--control-min-target)] border-0 border-b border-color-brown-900/25 bg-transparent px-0 py-2 " +
+  "font-accent text-large text-color-brown-900 transition-colors outline-none " +
+  "placeholder:text-color-brown-900/40 " +
+  "focus:border-color-brown-900/70";
+
+export function TextField({
+  name,
+  label,
+  type = "text",
+  placeholder,
+  required,
+  min,
+  max,
+  options,
+  className,
+}: TextFieldProps) {
+  // A checkbox is its own control — the label is the text beside the box.
+  if (type === "checkbox") {
+    return <Checkbox name={name} value="yes" required={required} label={label} className={className} />;
+  }
+
+  const autoComplete =
+    type === "email" ? "email" : type === "tel" ? "tel" : type === "text" && name === "name" ? "name" : undefined;
+  return (
+    <div className={cn("flex flex-col", className)}>
+      {label && (
+        <label
+          htmlFor={name}
+          className="mb-2 font-ui text-[11px] font-semibold uppercase tracking-[0.18em] text-color-brown-900/70"
+        >
+          {label}
+          {required && <span className="text-rust-500"> *</span>}
+        </label>
+      )}
+      {type === "textarea" ? (
+        <textarea
+          id={name}
+          name={name}
+          placeholder={placeholder}
+          required={required}
+          rows={3}
+          className={cn(underlineControl, "min-h-24 resize-none")}
+        />
+      ) : type === "select" ? (
+        <select
+          id={name}
+          name={name}
+          required={required}
+          defaultValue=""
+          className={cn(underlineControl, "cursor-pointer")}
+        >
+          <option value="" disabled hidden>
+            {placeholder ?? "—"}
+          </option>
+          {options?.map((o) => (
+            <option key={o.value} value={o.value}>
+              {o.label}
+            </option>
+          ))}
+        </select>
+      ) : (
+        <input
+          id={name}
+          name={name}
+          type={type}
+          placeholder={placeholder}
+          required={required}
+          min={min}
+          max={max}
+          autoComplete={autoComplete}
+          className={underlineControl}
+        />
+      )}
+    </div>
   );
 }
 

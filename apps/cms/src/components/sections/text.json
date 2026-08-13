@@ -1,0 +1,48 @@
+{
+  "collectionName": "components_sections_texts",
+  "info": {
+    "displayName": "Text",
+    "icon": "align-left",
+    "description": "The general-purpose text block: an optional eyebrow and heading over a body of formatted prose. Set alignment to 'center' for a section intro, 'left' for a prose column."
+  },
+  "options": {},
+  "attributes": {
+    "topDivider": {
+      "type": "boolean",
+      "default": false
+    },
+    "eyebrow": {
+      "type": "string"
+    },
+    "heading": {
+      "type": "string"
+    },
+    "body": {
+      "type": "blocks"
+    },
+    "button": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.link"
+    },
+    "align": {
+      "type": "enumeration",
+      "enum": ["left", "center"],
+      "default": "left"
+    },
+    "titleSize": {
+      "type": "enumeration",
+      "enum": ["xsmall", "small", "medium", "large", "xlarge", "xxlarge", "xxxlarge"],
+      "default": "medium"
+    },
+    "bodySize": {
+      "type": "enumeration",
+      "enum": ["xsmall", "small", "medium", "large", "xlarge", "xxlarge", "xxxlarge"],
+      "default": "medium"
+    },
+    "background": {
+      "type": "enumeration",
+      "enum": ["surface", "cream", "green", "brown"]
+    }
+  }
+}

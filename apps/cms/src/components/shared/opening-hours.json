@@ -3,32 +3,17 @@
   "info": {
     "displayName": "Opening Hours",
     "icon": "clock",
-    "description": "Opening hours for a single day of the week."
+    "description": "One opening-hours row — group the days yourself: `days` is the label (e.g. \"Mon–Thu\", \"Friday\") and `time` is the hours (e.g. \"8:00–20:00\", \"Closed\")."
   },
   "options": {},
   "attributes": {
-    "day": {
-      "type": "enumeration",
-      "enum": [
-        "monday",
-        "tuesday",
-        "wednesday",
-        "thursday",
-        "friday",
-        "saturday",
-        "sunday"
-      ],
+    "days": {
+      "type": "string",
       "required": true
     },
-    "opens": {
-      "type": "time"
-    },
-    "closes": {
-      "type": "time"
-    },
-    "closed": {
-      "type": "boolean",
-      "default": false
+    "time": {
+      "type": "string",
+      "required": true
     }
   }
 }

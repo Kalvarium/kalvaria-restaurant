@@ -34,9 +34,30 @@
       "type": "enumeration",
       "default": "medium",
       "enum": [
+        "none",
         "light",
         "medium",
         "strong"
+      ]
+    },
+    "size": {
+      "type": "enumeration",
+      "default": "full",
+      "enum": [
+        "full",
+        "tall",
+        "short"
+      ]
+    },
+    "textWidth": {
+      "type": "enumeration",
+      "default": "md",
+      "enum": [
+        "sm",
+        "md",
+        "lg",
+        "xl",
+        "full"
       ]
     }
   }

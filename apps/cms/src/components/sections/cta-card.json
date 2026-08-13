@@ -1,0 +1,43 @@
+{
+  "collectionName": "components_sections_cta_cards",
+  "info": {
+    "displayName": "CTA Card",
+    "icon": "cursor",
+    "description": "A contained, centered call-to-action card: an eyebrow, heading, short body and a button, set in a bordered (or cream) panel. Use for a boxed CTA like a menu download or 'book an event'."
+  },
+  "options": {},
+  "attributes": {
+    "background": {
+      "type": "enumeration",
+      "enum": ["surface", "cream", "green", "brown"]
+    },
+    "cardBackground": {
+      "type": "enumeration",
+      "enum": ["surface", "cream", "green", "brown"],
+      "default": "green"
+    },
+    "topDivider": {
+      "type": "boolean",
+      "default": false
+    },
+    "eyebrow": {
+      "type": "string"
+    },
+    "heading": {
+      "type": "string"
+    },
+    "body": {
+      "type": "blocks"
+    },
+    "bodySize": {
+      "type": "enumeration",
+      "enum": ["xsmall", "small", "medium", "large", "xlarge", "xxlarge", "xxxlarge"],
+      "default": "small"
+    },
+    "button": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.link"
+    }
+  }
+}

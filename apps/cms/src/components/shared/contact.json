@@ -22,9 +22,6 @@
       "type": "string",
       "required": true
     },
-    "city": {
-      "type": "string"
-    },
     "mapUrl": {
       "type": "string"
     }

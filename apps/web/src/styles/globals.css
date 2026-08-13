@@ -14,6 +14,7 @@
   --color-cream: #f8f2e6;        /* taken */
   --color-ivory: #ffffff;      /* white @ 90% — navbar text */
   --color-brown-900: #2b2421;    /* taken */
+  --color-color-brown-900: #2b2421; /* alias so `text-color-brown-900` (+ /opacity) generates */
   --color-green-800: #33473a;    /* taken */
   --color-rust-500: #a85a32;     /* taken — primary action */
   --color-rust-600: #8f4a28;     /* derived — hover */
@@ -57,8 +58,17 @@
   --text-medium: 14px; /* footer nav links, secondary UI text */
   --text-regular: 16px; /* body text, primary UI text */
   --text-large: 18px; /* H3 headings, card titles */
+  --text-subhead: 20px; /* H3 headings, card titles */
+  --text-subtitle: 22px; /* H2 headings, section titles */
+  --text-title: 24px; /* card CTA heading, small block titles */
+  --text-heading: 26px; /* H2 headings, section titles */
+  --text-hero: 28px; /* hero subheadings, large block titles */
   --text-xl: 20px; /* H2 headings, section titles */
   --text-2xl: 32px; /* pull quotes */
+  --text-3xl: 40px; /* hero headings */
+  --text-4xl: 48px; /* hero headings */
+  --text-5xl: 56px; /* hero headings */
+  --text-6xl: 80px; /* hero headings */
 
   /* radius — 2px corner + full pill (taken) */
   --radius-sm: 2px;
@@ -79,6 +89,16 @@
   ); /* derived — top stop raised 0.30→0.55 so cream type clears AA over the hero photo */
 }
 
+/* Page container — shared by the hero content and every full-width content
+   section so their left/right edges align (mirrors the deployed .container:
+   1280px max, centred, container-pad on the sides). */
+@utility container-page {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 90rem; /* 1280px — --container-max */
+  padding-inline: clamp(20px, 5vw, 80px); /* --container-pad */
+}
+
 /* Entrance animation — hero content fades up on load (matches the deployed site).
    Apply .animate-fade-up and stagger with an inline animation-delay. */
 @keyframes fadeInUp {
@@ -96,6 +116,40 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-up {
+    animation: none;
+  }
+}
+
+/* Dialog entrance — backdrop fades in, panel slides up + scales (matches the
+   deployed product modal). Applied at the call site; the Dialog primitives stay
+   behaviour-free. */
+@keyframes dialogOverlayIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes dialogPanelIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.animate-dialog-overlay {
+  animation: dialogOverlayIn 0.3s ease both;
+}
+.animate-dialog-panel {
+  animation: dialogPanelIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-dialog-overlay,
+  .animate-dialog-panel {
     animation: none;
   }
 }

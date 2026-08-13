@@ -13,7 +13,7 @@
     },
     "href": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "isExternal": {
       "type": "boolean",
@@ -21,8 +21,15 @@
     },
     "variant": {
       "type": "enumeration",
-      "enum": ["primary", "secondary", "ghost", "light", "gold"],
-      "default": "primary"
+      "default": "primary",
+      "enum": [
+        "primary",
+        "secondary",
+        "ghost",
+        "light",
+        "gold",
+        "white"
+      ]
     }
   }
 }

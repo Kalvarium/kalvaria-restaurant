@@ -1,0 +1,63 @@
+{
+  "collectionName": "components_sections_forms",
+  "info": {
+    "displayName": "Form",
+    "icon": "envelop",
+    "description": "A booking / enquiry form that emails the restaurant. Set the editorial text and add the form's inputs under Fields (each is a Form Field entry). `display: page` = full-screen photo + form; `display: dialog` = a button that opens the form in a modal."
+  },
+  "options": {},
+  "attributes": {
+    "recipient": {
+      "type": "enumeration",
+      "enum": ["reservation", "upstairs", "cakes"],
+      "default": "reservation"
+    },
+    "display": {
+      "type": "enumeration",
+      "enum": ["page", "dialog"],
+      "default": "page"
+    },
+    "anchor": {
+      "type": "string"
+    },
+    "eyebrow": {
+      "type": "string"
+    },
+    "heading": {
+      "type": "string"
+    },
+    "intro": {
+      "type": "text"
+    },
+    "content": {
+      "type": "component",
+      "repeatable": true,
+      "component": "sections.text"
+    },
+    "fields": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.form-field"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
+    "quote": {
+      "type": "text"
+    },
+    "submitLabel": {
+      "type": "string",
+      "default": "Send reservation request"
+    },
+    "successMessage": {
+      "type": "text",
+      "default": "Thank you! We'll get back to you soon to confirm your reservation."
+    },
+    "errorMessage": {
+      "type": "text",
+      "default": "Sorry, something went wrong. Please call us instead."
+    }
+  }
+}

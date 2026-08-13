@@ -1,0 +1,74 @@
+{
+  "kind": "singleType",
+  "collectionName": "emails",
+  "info": {
+    "singularName": "email",
+    "pluralName": "emails",
+    "displayName": "Email",
+    "description": "Recipient addresses AND the notification-email wording for the site's forms — reservations, upstairs enquiries, and cake orders. Addresses are shared across languages; the templates are per-language."
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "reservationEmail": {
+      "type": "email",
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "upstairsEmail": {
+      "type": "email",
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "cakesEmail": {
+      "type": "email",
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "reservationTemplate": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.email-template",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "upstairsTemplate": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.email-template",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "cakesTemplate": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.email-template",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    }
+  }
+}

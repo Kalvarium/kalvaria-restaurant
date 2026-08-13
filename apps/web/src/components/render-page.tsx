@@ -3,9 +3,10 @@ import type { ReactNode } from "react";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { Header } from "@/components/sections/Header";
+import { ScrollProgress } from "@/components/sections/ScrollProgress";
 import { Footer } from "@/components/sections/Footer";
 import { Sections } from "@/components/sections/Sections";
-import { getContact, getFeaturedCakes, getGlobal, getPage, SectionComponent } from "@/lib/strapi";
+import { getGeneralInfo, getCakes, getFeaturedCafes, getFeaturedCakes, getGlobal, getPage, media, PageSlug, SectionComponent } from "@/lib/strapi";
 import { DEFAULT_LOCALE, isLocale, LOCALE_COOKIE, type Locale } from "@/lib/i18n";
 
 /** Locale from the NEXT_LOCALE cookie, falling back to the default. */
@@ -14,11 +15,21 @@ export async function resolveLocale(): Promise<Locale> {
   return isLocale(value) ? value : DEFAULT_LOCALE;
 }
 
-/** SEO tags for a CMS page — reused by every route's `generateMetadata`. */
+/**
+ * Browser-tab title + description for a CMS page. Uses the page's SEO metaTitle
+ * when set, otherwise builds `{page title} – {site name}` (home is just the
+ * site name). Both the page title and site name come from Strapi, so the tab
+ * title is translatable per locale.
+ */
 export async function pageMetadata(slug: string): Promise<Metadata> {
-  const page = await getPage(slug, await resolveLocale());
-  if (!page?.seo) return {};
-  return { title: page.seo.metaTitle, description: page.seo.metaDescription };
+  const locale = await resolveLocale();
+  const [page, global] = await Promise.all([getPage(slug, locale), getGlobal(locale)]);
+  if (!page) return {};
+  const siteName = global?.siteName ?? "Kalvárium 1910";
+  const title =
+    page.seo?.metaTitle ??
+    (slug === PageSlug.Home ? siteName : `${page.title} - ${siteName}`);
+  return { title, description: page.seo?.metaDescription };
 }
 
 /**
@@ -32,10 +43,10 @@ export async function pageMetadata(slug: string): Promise<Metadata> {
  */
 export async function renderPage(slug: string): Promise<ReactNode> {
   const locale = await resolveLocale();
-  const [global, page, contact] = await Promise.all([
+  const [global, page, generalInfo] = await Promise.all([
     getGlobal(locale),
     getPage(slug, locale),
-    getContact(),
+    getGeneralInfo(),
   ]);
 
   if (!global) {
@@ -51,17 +62,44 @@ export async function renderPage(slug: string): Promise<ReactNode> {
   if (!page) notFound();
 
   const needsCakes = page.sections.some((s) => s.__component === SectionComponent.CakeGrid);
-  const cakes = needsCakes ? await getFeaturedCakes(6, locale) : [];
+  const needsCafes = page.sections.some((s) => s.__component === SectionComponent.CafeGrid);
+  // A Form with a `cakes` (dropdown) field needs the full cake list for its options.
+  const needsFormCakes = page.sections.some(
+    (s) => s.__component === SectionComponent.Form && (s.fields ?? []).some((f) => f.type === "cakes"),
+  );
+  const [cakes, cafes, formCakes] = await Promise.all([
+    needsCakes ? getFeaturedCakes(6, locale) : Promise.resolve([]),
+    needsCafes ? getFeaturedCafes(8, locale) : Promise.resolve([]),
+    needsFormCakes ? getCakes(locale) : Promise.resolve([]),
+  ]);
 
-  const cta = global.headerCta ?? { label: "Rezervovať stôl", href: "#rezervacia" };
+  const cta = global.headerCta ?? { label: "Rezervovať stôl", href: "/rezervacia" };
+  // The navbar sits transparent over a dark hero only when the page opens with one;
+  // otherwise (e.g. café, which starts with a light text block) it renders solid.
+  const overHero = page.sections[0]?.__component === SectionComponent.Hero;
 
   return (
     <>
-      <Header siteName={global.siteName} nav={global.navigation} cta={cta} />
+      <Header
+        siteName={global.siteName}
+        nav={global.navigation}
+        cta={cta}
+        overHero={overHero}
+        logo={media(global.logo?.url)}
+      />
+      <ScrollProgress />
       <div className="flex-1">
-        <Sections sections={page.sections} cakes={cakes} />
+        <Sections
+          sections={page.sections}
+          cakes={cakes}
+          cafes={cafes}
+          formCakes={formCakes}
+          cakePhone={generalInfo?.contact?.cakePhone}
+          reserveHref={cta.href}
+          generalInfo={generalInfo ?? undefined}
+        />
       </div>
-      <Footer global={global} socialLinks={contact?.socialLinks} />
+      <Footer global={global} socialLinks={generalInfo?.socialLinks} />
     </>
   );
 }

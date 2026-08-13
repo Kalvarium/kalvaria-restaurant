@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_shared_email_templates",
+  "info": {
+    "displayName": "Email Template",
+    "icon": "envelop",
+    "description": "Wording for a form-notification email: subject line, an intro above the details, and an optional footer. The customer's submitted fields are appended automatically."
+  },
+  "options": {},
+  "attributes": {
+    "subject": {
+      "type": "string",
+      "required": true
+    },
+    "intro": {
+      "type": "blocks"
+    },
+    "footer": {
+      "type": "blocks"
+    }
+  }
+}

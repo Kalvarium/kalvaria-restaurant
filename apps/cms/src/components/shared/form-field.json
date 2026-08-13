@@ -1,0 +1,41 @@
+{
+  "collectionName": "components_shared_form_fields",
+  "info": {
+    "displayName": "Form Field",
+    "icon": "apps",
+    "description": "One input in a form: `name` is the data key (e.g. \"phone\"), plus label, type, placeholder, whether it's required, and whether it spans the full width. For `checkbox` (e.g. a consent tick) the label is the text beside the box — set fullWidth. `cakes` renders a dropdown whose options are the available cakes from the Cake collection."
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": ["text", "tel", "email", "date", "time", "number", "textarea", "checkbox", "cakes"],
+      "default": "text"
+    },
+    "placeholder": {
+      "type": "string"
+    },
+    "required": {
+      "type": "boolean",
+      "default": false
+    },
+    "fullWidth": {
+      "type": "boolean",
+      "default": false
+    },
+    "min": {
+      "type": "string"
+    },
+    "max": {
+      "type": "string"
+    }
+  }
+}

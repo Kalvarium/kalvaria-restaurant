@@ -12,6 +12,10 @@ export interface HeaderProps {
   siteName: string;
   nav: NavLink[];
   cta: { label: string; href: string };
+  /** True when the page opens with a dark Hero the navbar can overlay. Off → solid navbar from the top. */
+  overHero?: boolean;
+  /** Logo image URL from the Global single type; falls back to the bundled SVG. */
+  logo?: string;
 }
 
 /**
@@ -19,7 +23,7 @@ export interface HeaderProps {
  * legibility), turning solid cream with dark text on scroll — the audit-verified
  * pattern. Mobile opens a green menu panel (cream links at 8.96:1).
  */
-export function Header({ siteName, nav, cta }: HeaderProps) {
+export function Header({ siteName, nav, cta, overHero = true, logo }: HeaderProps) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const { locale, toggle: switchLocale } = useLocale();
@@ -31,7 +35,9 @@ export function Header({ siteName, nav, cta }: HeaderProps) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const dark = scrolled && !open; // dark text only when solid header, not while menu open
+  // Solid (cream) header when scrolled — or from the top on pages that don't open with a dark hero.
+  const solid = !overHero || scrolled;
+  const dark = solid && !open; // dark text only when solid header, not while menu open
   const next = otherLocale(locale);
 
   // The reservation link is already surfaced as the CTA button — drop it from the nav.
@@ -41,13 +47,13 @@ export function Header({ siteName, nav, cta }: HeaderProps) {
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-colors",
-        scrolled ? "bg-cream/95 backdrop-blur border-b border-line" : "bg-transparent",
+        solid ? "bg-cream/95 backdrop-blur border-b border-line" : "bg-transparent",
       )}
     >
       <div className="mx-auto flex h-[72px] max-w-7xl items-center gap-7 px-[clamp(20px,5vw,80px)]">
         <Link href="/" aria-label={siteName} className="flex flex-shrink-0 items-center">
           <Image
-            src="/kalvarium_logo_text.svg"
+            src={logo ?? "/kalvarium_logo_text.svg"}
             alt={siteName}
             loading="eager"
             className={cn(

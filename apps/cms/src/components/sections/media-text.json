@@ -16,6 +16,11 @@
         "brown"
       ]
     },
+    "variant": {
+      "type": "enumeration",
+      "enum": ["contained", "full"],
+      "default": "contained"
+    },
     "image": {
       "type": "media",
       "multiple": false,
@@ -40,6 +45,10 @@
         "right"
       ],
       "default": "left"
+    },
+    "showCaption": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

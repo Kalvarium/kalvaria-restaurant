@@ -39,13 +39,17 @@
       "type": "dynamiczone",
       "components": [
         "sections.hero",
-        "sections.rich-text",
+        "sections.text",
         "sections.media-text",
-        "sections.feature-cards",
         "sections.cake-grid",
-        "sections.reservation-cta",
+        "sections.cafe-grid",
         "sections.quote",
-        "sections.gallery"
+        "sections.gallery",
+        "sections.venue-info",
+        "sections.card-grid",
+        "sections.map",
+        "sections.form",
+        "sections.cta-card"
       ],
       "pluginOptions": {
         "i18n": {

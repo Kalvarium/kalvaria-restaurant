@@ -25,18 +25,16 @@
         }
       }
     },
-    "slug": {
-      "type": "uid",
-      "targetField": "name",
-      "required": true,
+    "description": {
+      "type": "text",
       "pluginOptions": {
         "i18n": {
           "localized": true
         }
       }
     },
-    "description": {
-      "type": "text",
+    "allergens": {
+      "type": "string",
       "pluginOptions": {
         "i18n": {
           "localized": true
@@ -60,6 +58,14 @@
       "pluginOptions": {
         "i18n": {
           "localized": false
+        }
+      }
+    },
+    "pricePrefix": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
         }
       }
     },
@@ -110,15 +116,6 @@
     "available": {
       "type": "boolean",
       "default": true,
-      "pluginOptions": {
-        "i18n": {
-          "localized": false
-        }
-      }
-    },
-    "rank": {
-      "type": "integer",
-      "default": 0,
       "pluginOptions": {
         "i18n": {
           "localized": false

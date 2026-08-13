@@ -12,7 +12,7 @@ Live gallery of every component + state: **`/kit`** (`src/app/kit/page.tsx`).
 ## Import
 
 ```tsx
-import { Button, Badge, Card, ProductCard, Field, Input, Textarea, Select,
+import { Button, Badge, Card, Field, Input, Textarea, Select,
          Checkbox, Alert, Eyebrow, LanguagePill, Icon } from "@/components/ui";
 ```
 
@@ -23,8 +23,8 @@ import { Button, Badge, Card, ProductCard, Field, Input, Textarea, Select,
 | `Button` | `variant`: primary·secondary·ghost·light·gold; `size`: md·sm. Renders `<a>` (Next `Link`) when `href` is set, else `<button>`. 44px min target. |
 | `Badge` | `variant`: rust·gold·soft·green. |
 | `Eyebrow` | Uppercase Jost label above headings. |
-| `Card` | Raised surface panel (`padded` prop, default true). |
-| `ProductCard` | `image`, `imageAlt`, `title`, `description`, `price`, `badge?`, `action?`. |
+| `Card` (+ `CardVariant`, `CardMedia`, `CardBody`, `CardHeader`, `CardEyebrow`, `CardTitle`, `CardDescription`, `CardFooter`) | Compound image-over-body card — compose the pieces you need. Body pieces self-space (`first:mt-0`). `variant` (`CardVariant.Bordered` default = white/hairline for cakes & feature cards; `CardVariant.Surface` = cream tile for the café menu) sets the surface + type scale across the pieces via context. `CardMedia` takes `aspect` (`4/3`/`16/9`), `zoom` (hover image zoom, needs `group` on the root), and `overlay` (title over a bottom gradient, for wide café tiles). |
+| `List` + `ListItem` | The site's list — a rust marker per row with hairline dividers in the accent face; `text-current`/`border-current` so it adapts to the section background. `List` takes `ordered` (renders `<ol>`); `ListItem` takes `marker` (defaults to an em-dash; pass e.g. `"1."` for ordered rows). Use instead of raw `ul`/`li`. |
 | `Field` + `Input`/`Textarea`/`Select` | `Field` wraps label + control + `hint`/`error`; controls take `error?` for the invalid state. Per-field errors. |
 | `Checkbox` | Labelled checkbox, rust accent. |
 | `Alert` | `variant`: success·error·warning, with a real SVG icon. |

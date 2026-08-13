@@ -16,14 +16,47 @@
         "brown"
       ]
     },
+    "eyebrow": {
+      "type": "string"
+    },
     "heading": {
       "type": "string"
+    },
+    "align": {
+      "type": "enumeration",
+      "enum": ["left", "center"],
+      "default": "left"
+    },
+    "columns": {
+      "type": "enumeration",
+      "enum": [
+        "2",
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "default": "4"
+    },
+    "layout": {
+      "type": "enumeration",
+      "enum": [
+        "grid",
+        "staggered"
+      ],
+      "default": "grid"
     },
     "images": {
       "type": "media",
       "multiple": true,
-      "allowedTypes": ["images"],
+      "allowedTypes": [
+        "images"
+      ],
       "required": true
+    },
+    "showCaptions": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

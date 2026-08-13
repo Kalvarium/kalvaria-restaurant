@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_sections_maps",
+  "info": {
+    "displayName": "Map",
+    "icon": "pinMap",
+    "description": "A full-width embedded map. Paste a Google Maps embed URL (Share → Embed a map → the src of the iframe)."
+  },
+  "options": {},
+  "attributes": {
+    "background": {
+      "type": "enumeration",
+      "enum": ["surface", "cream", "green", "brown"]
+    },
+    "embedUrl": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

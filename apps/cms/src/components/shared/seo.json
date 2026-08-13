@@ -9,18 +9,20 @@
   "attributes": {
     "metaTitle": {
       "type": "string",
-      "required": true,
-      "maxLength": 60
+      "maxLength": 60,
+      "required": true
     },
     "metaDescription": {
       "type": "text",
-      "required": true,
-      "maxLength": 160
+      "maxLength": 160,
+      "required": false
     },
     "ogImage": {
       "type": "media",
       "multiple": false,
-      "allowedTypes": ["images"]
+      "allowedTypes": [
+        "images"
+      ]
     },
     "keywords": {
       "type": "string"

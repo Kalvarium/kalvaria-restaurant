@@ -1,0 +1,53 @@
+{
+  "collectionName": "components_sections_card_grids",
+  "info": {
+    "displayName": "Card Grid",
+    "icon": "grid",
+    "description": "A responsive grid of Info Cards (icon + title + body). Add cards individually — used for the contact page and any card row."
+  },
+  "options": {},
+  "attributes": {
+    "background": {
+      "type": "enumeration",
+      "enum": ["surface", "cream", "green", "brown"]
+    },
+    "eyebrow": {
+      "type": "string"
+    },
+    "heading": {
+      "type": "string"
+    },
+    "align": {
+      "type": "enumeration",
+      "enum": ["left", "center"],
+      "default": "left"
+    },
+    "columns": {
+      "type": "enumeration",
+      "enum": ["2", "3", "4"],
+      "default": "3"
+    },
+    "cards": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.info-card"
+    },
+    "openingHours": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.opening-hours"
+    },
+    "cafeLabel": {
+      "type": "string",
+      "default": "Café"
+    },
+    "cakesLabel": {
+      "type": "string",
+      "default": "Cakes"
+    },
+    "emailLabel": {
+      "type": "string",
+      "default": "Email"
+    }
+  }
+}

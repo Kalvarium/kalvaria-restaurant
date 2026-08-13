@@ -32,13 +32,16 @@ export const jost = Jost({
   display: "swap",
 });
 
-// Regular / body text & pull-quotes — Cormorant Garamond (static, incl. italic)
+// Regular / body text & pull-quotes — Cormorant Garamond (static, incl. italic).
+// adjustFontFallback:false drops next/font's auto "…Fallback" metric family, so the
+// stack reads "Cormorant Garamond", Georgia, serif — matching the deployed site.
 export const cormorant = Cormorant_Garamond({
   weight: ["400", "500", "600"],
   style: ["normal", "italic"],
   subsets: ["latin", "latin-ext"],
   variable: "--font-cormorant",
   display: "swap",
+  adjustFontFallback: false,
 });
 
 /** All font CSS-variable classes, to apply on the root <html> element. */

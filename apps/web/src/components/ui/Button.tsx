@@ -8,6 +8,7 @@ export const ButtonVariant = {
   Ghost: "ghost",
   Light: "light",
   Gold: "gold",
+  White: "white",
 } as const;
 export type ButtonVariant = (typeof ButtonVariant)[keyof typeof ButtonVariant];
 
@@ -39,6 +40,8 @@ const variants: Record<ButtonVariant, string> = {
   light: "text-cream border-cream/70 hover:bg-cream/15 focus-visible:outline-cream",
   // decorative accent on dark — uses the legible gold
   gold: "text-gold-400 border-gold-400 hover:bg-gold-400 hover:text-brown-900 focus-visible:outline-cream",
+  // white fill, dark outline + text — inverts to dark on hover
+  white: "bg-white text-brown-900 border-brown-900 hover:bg-brown-900 hover:text-cream focus-visible:outline-rust-500",
 };
 
 interface CommonProps {
@@ -64,9 +67,22 @@ export function Button({
   const pad = variant === ButtonVariant.Ghost ? "px-2" : size === ButtonSize.Sm ? "px-5" : "px-8";
   const classes = cn(base, sizes[size], variants[variant], pad, className);
 
-  if ("href" in props && props.href !== undefined) {
+  // A null/empty href (e.g. an unset CMS link) is not a link — render a <button>.
+  if ("href" in props && props.href != null && props.href !== "") {
+    const linkProps = props as ButtonAsLink;
+    // An href of "#some-id" is an on-page trigger, not a link: render a plain
+    // <button id="some-id"> (no href → no URL change). A client component (e.g. the
+    // Form dialog) finds it by id and wires the click. No handler here keeps it
+    // usable inside server components.
+    if (linkProps.href.startsWith("#")) {
+      return (
+        <button type="button" id={linkProps.href.slice(1)} className={classes}>
+          {children}
+        </button>
+      );
+    }
     return (
-      <Link className={classes} {...(props as ButtonAsLink)}>
+      <Link className={classes} {...linkProps}>
         {children}
       </Link>
     );

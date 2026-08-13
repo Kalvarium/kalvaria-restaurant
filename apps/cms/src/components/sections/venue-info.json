@@ -1,0 +1,31 @@
+{
+  "collectionName": "components_sections_venue_infos",
+  "info": {
+    "displayName": "Venue Info",
+    "icon": "apps",
+    "description": "Two columns: intro text + a feature list on the left, and a coloured info card (label/value rows) on the right. Used for the Upstairs space page's 'Space Information' block."
+  },
+  "options": {},
+  "attributes": {
+    "background": {
+      "type": "enumeration",
+      "enum": ["surface", "cream", "green", "brown"]
+    },
+    "body": {
+      "type": "blocks"
+    },
+    "features": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.list-item"
+    },
+    "cardHeading": {
+      "type": "string"
+    },
+    "rows": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.info-row"
+    }
+  }
+}

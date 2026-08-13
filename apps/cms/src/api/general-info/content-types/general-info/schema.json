@@ -1,0 +1,32 @@
+{
+  "kind": "singleType",
+  "collectionName": "contacts",
+  "info": {
+    "singularName": "general-info",
+    "pluralName": "general-infos",
+    "displayName": "General Info",
+    "description": "Site-wide details, edited once and shared across all languages: address / phone / email, social links, and how guests reserve a table. (Opening hours live on the Card Grid, which is localized, since day labels differ per language.)"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "contact": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.contact",
+      "required": true
+    },
+    "socialLinks": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.social-link"
+    },
+    "reservation": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.reservation"
+    }
+  }
+}

@@ -13,7 +13,7 @@ const variants: Record<BadgeVariant, string> = {
   rust: "bg-rust-500 text-white",
   gold: "bg-gold-400 text-brown-900",
   soft: "bg-rust-500/10 text-rust-500 border border-rust-500/30",
-  green: "bg-green-800 text-cream",
+  green: "bg-green-800 text-white",
 };
 
 export interface BadgeProps {
@@ -26,7 +26,7 @@ export function Badge({ variant = BadgeVariant.Rust, className, children }: Badg
   return (
     <span
       className={cn(
-        "inline-flex items-center font-ui font-semibold uppercase text-[11px] tracking-[0.09em] px-[11px] py-[5px] rounded-pill",
+        "inline-flex items-center font-ui font-semibold uppercase text-[11px] tracking-[0.09em] px-[11px] py-[5px]",
         variants[variant],
         className,
       )}

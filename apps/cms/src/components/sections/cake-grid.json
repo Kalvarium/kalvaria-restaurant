@@ -3,7 +3,7 @@
   "info": {
     "displayName": "Cake Grid",
     "icon": "grid",
-    "description": "Pulls cakes from the catalog. Components cannot hold relations, so 'by_category' matches on categorySlug."
+    "description": "Shows cakes from the catalog. Pick specific cakes in 'cakes' to curate and order them; leave it empty to fall back to the featured cakes."
   },
   "options": {},
   "attributes": {
@@ -22,23 +22,42 @@
     "intro": {
       "type": "text"
     },
-    "mode": {
-      "type": "enumeration",
-      "enum": [
-        "featured",
-        "all",
-        "by_category"
-      ],
-      "default": "featured",
-      "required": true
-    },
-    "categorySlug": {
-      "type": "string"
+    "cakes": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::cake.cake"
     },
     "limit": {
       "type": "integer",
       "default": 6,
       "min": 1
+    },
+    "ctaHeading": {
+      "type": "string"
+    },
+    "ctaBody": {
+      "type": "text"
+    },
+    "ctaButton": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.link"
+    },
+    "orderLabel": {
+      "type": "string",
+      "default": "Order"
+    },
+    "callLabel": {
+      "type": "string",
+      "default": "Call"
+    },
+    "allergensLabel": {
+      "type": "string",
+      "default": "Allergens"
+    },
+    "emptyText": {
+      "type": "string",
+      "default": "We are currently preparing an offer."
     }
   }
 }

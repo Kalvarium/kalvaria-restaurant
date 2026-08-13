@@ -1,45 +1,50 @@
-import { Button, ButtonSize, ButtonVariant, ProductCard } from "@/components/ui";
-import { media } from "@/lib/strapi";
+import { Button, ButtonVariant } from "@/components/ui";
 import type { Cake, CakeGridSection } from "@/lib/strapi";
 import { SectionBackground, sectionBackground } from "@/lib/section-background";
+import { CakeCard } from "./CakeCard";
 
-const formatPrice = (price: number, currency: string) => {
-  const n = price.toFixed(2).replace(".", ",");
-  return currency === "EUR" ? `${n} €` : `${n} ${currency}`;
-};
-
-export function CakeGrid({ s, cakes }: { s: CakeGridSection; cakes: Cake[] }) {
-  const items = cakes.slice(0, s.limit ?? 6);
+export function CakeGrid({ s, cakes, phone }: { s: CakeGridSection; cakes: Cake[]; phone?: string }) {
+  // Editor-curated cakes take priority; otherwise fall back to the featured list.
+  const source = s.cakes && s.cakes.length > 0 ? s.cakes : cakes;
+  const items = source.slice(0, s.limit ?? 6);
+  const cta = s.ctaHeading || s.ctaButton;
   return (
     <section className={sectionBackground(s.background, SectionBackground.Surface)}>
-      <div className="mx-auto max-w-6xl px-4 py-20 sm:px-8">
-        <div className="mb-10 text-center">
+      <div className="container-page py-20">
+        <div className="mb-10">
           {s.heading && (
-            <h2 className="font-display-alt text-[clamp(28px,4vw,40px)] font-semibold tracking-tight">{s.heading}</h2>
+            <h2 className="font-display-alt text-2xl font-semibold tracking-tight md:text-3xl">{s.heading}</h2>
           )}
-          {s.intro && <p className="mx-auto mt-2 max-w-[52ch] text-[16px] text-current/70">{s.intro}</p>}
+          {s.intro && <p className="mt-2 max-w-[52ch] text-[16px] text-current/70">{s.intro}</p>}
         </div>
-      {items.length > 0 ? (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {items.length > 0 || cta ? (
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {items.map((c) => (
-            <ProductCard
+            <CakeCard
               key={c.id}
-              image={media(c.image?.[0]?.url) ?? ""}
-              imageAlt={c.image?.[0]?.alternativeText ?? c.name}
-              title={c.name}
-              description={c.description ?? ""}
-              price={formatPrice(c.price, c.currency)}
-              badge={c.badge ? { label: c.badge.label, variant: c.badge.variant } : undefined}
-              action={
-                <Button variant={ButtonVariant.Primary} size={ButtonSize.Sm} href="#rezervacia">
-                  Order
-                </Button>
-              }
+              cake={c}
+              orderHref={s.ctaButton?.href}
+              orderLabel={s.orderLabel}
+              callLabel={s.callLabel}
+              allergensLabel={s.allergensLabel}
+              phone={phone}
             />
           ))}
+          {cta && (
+            // "Order a cake" card — the last grid cell (deployed .card-cta).
+            <div className="flex flex-col justify-center gap-4 bg-green-800 px-8 py-10 text-cream">
+              {s.ctaHeading && <h3 className="font-display-alt text-title">{s.ctaHeading}</h3>}
+              {s.ctaBody && <p className="text-large leading-[1.6] text-cream/80">{s.ctaBody}</p>}
+              {s.ctaButton && (
+                <Button variant={ButtonVariant.Primary} href={s.ctaButton.href} className="mt-2">
+                  {s.ctaButton.label}
+                </Button>
+              )}
+            </div>
+          )}
         </div>
       ) : (
-        <p className="text-center text-current/60">We are currently preparing an offer.</p>
+        <p className="text-center text-current/60">{s.emptyText ?? "We are currently preparing an offer."}</p>
       )}
       </div>
     </section>

@@ -443,6 +443,126 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiCafeCafe extends Struct.CollectionTypeSchema {
+  collectionName: 'cafes';
+  info: {
+    description: "The caf\u00E9 menu \u2014 one entry per drink or item (coffee, hot chocolate, tea\u2026). Holds the photo, name, description, price and a favourite note. Display only, like the Cake catalog. Edited once here, items appear anywhere a Cafe Grid block is placed. Use 'available' to hide an item without deleting it, and 'featured' to surface it in featured grids.";
+    displayName: 'Cafe';
+    pluralName: 'cafes';
+    singularName: 'cafe';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    available: Schema.Attribute.Boolean &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }> &
+      Schema.Attribute.DefaultTo<true>;
+    badge: Schema.Attribute.Component<'shared.badge', false> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    currency: Schema.Attribute.Enumeration<['EUR']> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }> &
+      Schema.Attribute.DefaultTo<'EUR'>;
+    description: Schema.Attribute.Text &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    favorite: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    featured: Schema.Attribute.Boolean &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }> &
+      Schema.Attribute.DefaultTo<false>;
+    image: Schema.Attribute.Media<'images', true> &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::cafe.cafe'>;
+    name: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    price: Schema.Attribute.Decimal &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }> &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      >;
+    pricePrefix: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    priceUnit: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    publishedAt: Schema.Attribute.DateTime;
+    seo: Schema.Attribute.Component<'shared.seo', false> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    wide: Schema.Attribute.Boolean &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }> &
+      Schema.Attribute.DefaultTo<false>;
+  };
+}
+
 export interface ApiCakeCake extends Struct.CollectionTypeSchema {
   collectionName: 'cakes';
   info: {
@@ -460,6 +580,12 @@ export interface ApiCakeCake extends Struct.CollectionTypeSchema {
     };
   };
   attributes: {
+    allergens: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     available: Schema.Attribute.Boolean &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
@@ -526,6 +652,12 @@ export interface ApiCakeCake extends Struct.CollectionTypeSchema {
         },
         number
       >;
+    pricePrefix: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     priceUnit: Schema.Attribute.String &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
@@ -533,21 +665,7 @@ export interface ApiCakeCake extends Struct.CollectionTypeSchema {
         };
       }>;
     publishedAt: Schema.Attribute.DateTime;
-    rank: Schema.Attribute.Integer &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: false;
-        };
-      }> &
-      Schema.Attribute.DefaultTo<0>;
     seo: Schema.Attribute.Component<'shared.seo', false> &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    slug: Schema.Attribute.UID<'name'> &
-      Schema.Attribute.Required &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
@@ -619,13 +737,84 @@ export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiContactContact extends Struct.SingleTypeSchema {
+export interface ApiEmailEmail extends Struct.SingleTypeSchema {
+  collectionName: 'emails';
+  info: {
+    description: "Recipient addresses AND the notification-email wording for the site's forms \u2014 reservations, upstairs enquiries, and cake orders. Addresses are shared across languages; the templates are per-language.";
+    displayName: 'Email';
+    pluralName: 'emails';
+    singularName: 'email';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    cakesEmail: Schema.Attribute.Email &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    cakesTemplate: Schema.Attribute.Component<'shared.email-template', false> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::email.email'>;
+    publishedAt: Schema.Attribute.DateTime;
+    reservationEmail: Schema.Attribute.Email &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    reservationTemplate: Schema.Attribute.Component<
+      'shared.email-template',
+      false
+    > &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    upstairsEmail: Schema.Attribute.Email &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    upstairsTemplate: Schema.Attribute.Component<
+      'shared.email-template',
+      false
+    > &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+  };
+}
+
+export interface ApiGeneralInfoGeneralInfo extends Struct.SingleTypeSchema {
   collectionName: 'contacts';
   info: {
-    description: 'Site-wide contact details, edited once and referenced across the site (header, footer and the Kontakt page): address / phone / email, opening hours, social links, and how guests reserve a table. Shared across all languages (not localized).';
-    displayName: 'Contact';
-    pluralName: 'contacts';
-    singularName: 'contact';
+    description: 'Site-wide details, edited once and shared across all languages: address / phone / email, social links, and how guests reserve a table. (Opening hours live on the Card Grid, which is localized, since day labels differ per language.)';
+    displayName: 'General Info';
+    pluralName: 'general-infos';
+    singularName: 'general-info';
   };
   options: {
     draftAndPublish: false;
@@ -639,10 +828,9 @@ export interface ApiContactContact extends Struct.SingleTypeSchema {
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
-      'api::contact.contact'
+      'api::general-info.general-info'
     > &
       Schema.Attribute.Private;
-    openingHours: Schema.Attribute.Component<'shared.opening-hours', true>;
     publishedAt: Schema.Attribute.DateTime;
     reservation: Schema.Attribute.Component<'shared.reservation', false>;
     socialLinks: Schema.Attribute.Component<'shared.social-link', true>;
@@ -769,13 +957,17 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
     sections: Schema.Attribute.DynamicZone<
       [
         'sections.hero',
-        'sections.rich-text',
+        'sections.text',
         'sections.media-text',
-        'sections.feature-cards',
         'sections.cake-grid',
-        'sections.reservation-cta',
+        'sections.cafe-grid',
         'sections.quote',
         'sections.gallery',
+        'sections.venue-info',
+        'sections.card-grid',
+        'sections.map',
+        'sections.form',
+        'sections.cta-card',
       ]
     > &
       Schema.Attribute.SetPluginOptions<{
@@ -1320,9 +1512,11 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::cafe.cafe': ApiCafeCafe;
       'api::cake.cake': ApiCakeCake;
       'api::category.category': ApiCategoryCategory;
-      'api::contact.contact': ApiContactContact;
+      'api::email.email': ApiEmailEmail;
+      'api::general-info.general-info': ApiGeneralInfoGeneralInfo;
       'api::global.global': ApiGlobalGlobal;
       'api::page.page': ApiPagePage;
       'plugin::content-releases.release': PluginContentReleasesRelease;

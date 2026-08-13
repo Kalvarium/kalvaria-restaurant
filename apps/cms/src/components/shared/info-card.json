@@ -1,0 +1,37 @@
+{
+  "collectionName": "components_shared_info_cards",
+  "info": {
+    "displayName": "Info Card",
+    "icon": "layout",
+    "description": "A card with an icon, a title and content pulled from General Info (address / opening hours / contact). Background colour is adjustable."
+  },
+  "options": {},
+  "attributes": {
+    "icon": {
+      "type": "enumeration",
+      "enum": ["none", "location", "clock", "phone", "mail", "info"],
+      "default": "none"
+    },
+    "title": {
+      "type": "string"
+    },
+    "source": {
+      "type": "enumeration",
+      "enum": ["address", "hours", "contact"],
+      "default": "address"
+    },
+    "note": {
+      "type": "string"
+    },
+    "size": {
+      "type": "enumeration",
+      "enum": ["xsmall", "small", "medium", "large", "xlarge", "xxlarge", "xxxlarge"],
+      "default": "medium"
+    },
+    "background": {
+      "type": "enumeration",
+      "enum": ["white", "cream", "green", "brown"],
+      "default": "white"
+    }
+  }
+}
