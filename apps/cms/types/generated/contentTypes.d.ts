@@ -740,7 +740,7 @@ export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
 export interface ApiEmailEmail extends Struct.SingleTypeSchema {
   collectionName: 'emails';
   info: {
-    description: "Recipient addresses AND the notification-email wording for the site's forms \u2014 reservations, upstairs enquiries, and cake orders. Addresses are shared across languages; the templates are per-language.";
+    description: "Recipient addresses for the site's forms \u2014 reservations, upstairs enquiries, and cake orders. The notification-email wording is defined in code.";
     displayName: 'Email';
     pluralName: 'emails';
     singularName: 'email';
@@ -748,63 +748,20 @@ export interface ApiEmailEmail extends Struct.SingleTypeSchema {
   options: {
     draftAndPublish: false;
   };
-  pluginOptions: {
-    i18n: {
-      localized: true;
-    };
-  };
   attributes: {
-    cakesEmail: Schema.Attribute.Email &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: false;
-        };
-      }>;
-    cakesTemplate: Schema.Attribute.Component<'shared.email-template', false> &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
+    cakesEmail: Schema.Attribute.Email;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    locale: Schema.Attribute.String;
-    localizations: Schema.Attribute.Relation<'oneToMany', 'api::email.email'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::email.email'> &
+      Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
-    reservationEmail: Schema.Attribute.Email &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: false;
-        };
-      }>;
-    reservationTemplate: Schema.Attribute.Component<
-      'shared.email-template',
-      false
-    > &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
+    reservationEmail: Schema.Attribute.Email;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    upstairsEmail: Schema.Attribute.Email &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: false;
-        };
-      }>;
-    upstairsTemplate: Schema.Attribute.Component<
-      'shared.email-template',
-      false
-    > &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
+    upstairsEmail: Schema.Attribute.Email;
   };
 }
 

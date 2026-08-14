@@ -510,33 +510,14 @@ export async function getGeneralInfo(): Promise<GeneralInfoEntry | null> {
 }
 
 // ---------- email single type ----------
-/** Editable wording for one form-notification email (customer fields appended automatically). */
-export interface EmailTemplate {
-  subject?: string;
-  intro?: Block[];
-  footer?: Block[];
-}
+/** Form recipient addresses. The notification-email wording lives in code (lib/email). */
 export interface EmailEntry {
   reservationEmail?: string;
   upstairsEmail?: string;
   cakesEmail?: string;
-  reservationTemplate?: EmailTemplate;
-  upstairsTemplate?: EmailTemplate;
-  cakesTemplate?: EmailTemplate;
 }
-const EMAIL_POPULATE = [
-  "populate[reservationTemplate]=true",
-  "populate[upstairsTemplate]=true",
-  "populate[cakesTemplate]=true",
-].join("&");
-/**
- * Form recipient addresses (shared across languages) + per-recipient email
- * templates (localized). Pass the customer's locale; falls back to the default
- * locale when that locale's template hasn't been filled in.
- */
-export async function getEmails(locale: Locale = DEFAULT_LOCALE): Promise<EmailEntry | null> {
-  const one = (loc: Locale) => strapiGet<EmailEntry>(`email?${EMAIL_POPULATE}&locale=${loc}`);
-  return (await one(locale)) ?? (locale !== DEFAULT_LOCALE ? await one(DEFAULT_LOCALE) : null);
+export async function getEmails(): Promise<EmailEntry | null> {
+  return strapiGet<EmailEntry>("email");
 }
 
 /**

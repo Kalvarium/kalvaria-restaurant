@@ -5,6 +5,7 @@ import { Button, ButtonVariant, Dialog, DialogOverlay, Eyebrow, Icon, Image, Tex
 import { cn } from "@/lib/cn";
 import { media, type Cake, type FormSection } from "@/lib/strapi";
 import type { TextFieldType } from "@/components/ui";
+import { CAKE_ORDER_EVENT, type CakeOrderDetail } from "@/lib/cake-order";
 import { useLocale } from "@/lib/locale-context";
 import { TextContent } from "./Text";
 
@@ -20,7 +21,7 @@ const FormStatus = {
 type FormStatus = (typeof FormStatus)[keyof typeof FormStatus];
 
 /** The form panel (heading + intro + fields) — shared by the page and dialog modes. */
-function FormFields({ s, cakes }: { s: FormSection; cakes: Cake[] }) {
+function FormFields({ s, cakes, defaultCake }: { s: FormSection; cakes: Cake[]; defaultCake?: string }) {
   const { locale } = useLocale();
   const sending = SENDING[locale] ?? SENDING.en;
   const [status, setStatus] = useState<FormStatus>(FormStatus.Idle);
@@ -83,6 +84,7 @@ function FormFields({ s, cakes }: { s: FormSection; cakes: Cake[] }) {
                   min={f.min}
                   max={f.max}
                   options={isCakes ? cakeOptions : undefined}
+                  defaultValue={isCakes ? defaultCake : undefined}
                   className={f.fullWidth ? "sm:col-span-2" : undefined}
                 />
               );
@@ -113,9 +115,12 @@ function FormFields({ s, cakes }: { s: FormSection; cakes: Cake[] }) {
  */
 function FormDialog({ s, cakes }: { s: FormSection; cakes: Cake[] }) {
   const [open, setOpen] = useState(false);
+  // Cake to pre-select when opened from a specific cake's "Order" button.
+  const [defaultCake, setDefaultCake] = useState<string | undefined>(undefined);
   // The button renders as <button id="order-cake">, so match by the bare id even
   // if the anchor was entered with a leading "#".
   const anchor = s.anchor?.replace(/^#/, "");
+  const hasCakesField = (s.fields ?? []).some((f) => f.type === "cakes");
 
   const close = useCallback(() => setOpen(false), []);
 
@@ -126,11 +131,24 @@ function FormDialog({ s, cakes }: { s: FormSection; cakes: Cake[] }) {
     if (!btn) return;
     const onClick = (e: Event) => {
       e.preventDefault();
+      setDefaultCake(undefined);
       setOpen(true);
     };
     btn.addEventListener("click", onClick);
     return () => btn.removeEventListener("click", onClick);
   }, [anchor]);
+
+  // A cake card's "Order" button opens this dialog with that cake pre-selected.
+  // Only the cake-order form (one with a `cakes` field) responds.
+  useEffect(() => {
+    if (!hasCakesField) return;
+    const onOrder = (e: Event) => {
+      setDefaultCake((e as CustomEvent<CakeOrderDetail>).detail?.cake);
+      setOpen(true);
+    };
+    window.addEventListener(CAKE_ORDER_EVENT, onOrder);
+    return () => window.removeEventListener(CAKE_ORDER_EVENT, onOrder);
+  }, [hasCakesField]);
 
   // Esc to close + lock body scroll while open.
   useEffect(() => {
@@ -164,7 +182,7 @@ function FormDialog({ s, cakes }: { s: FormSection; cakes: Cake[] }) {
           <Icon name="close" size={22} />
         </button>
         <div className="max-h-[85vh] overflow-y-auto p-8 md:p-10">
-          <FormFields s={s} cakes={cakes} />
+          <FormFields s={s} cakes={cakes} defaultCake={defaultCake} />
         </div>
       </Dialog>
     </DialogOverlay>

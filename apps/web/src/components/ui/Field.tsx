@@ -97,6 +97,8 @@ export interface TextFieldProps {
   max?: string;
   /** Choices for `type: "select"`. */
   options?: { label: string; value: string }[];
+  /** Pre-selected value for `type: "select"` (uncontrolled — applies on mount). */
+  defaultValue?: string;
   /** Applied to the field wrapper — e.g. "sm:col-span-2" for full width. */
   className?: string;
 }
@@ -116,6 +118,7 @@ export function TextField({
   min,
   max,
   options,
+  defaultValue,
   className,
 }: TextFieldProps) {
   // A checkbox is its own control — the label is the text beside the box.
@@ -150,7 +153,7 @@ export function TextField({
           id={name}
           name={name}
           required={required}
-          defaultValue=""
+          defaultValue={defaultValue ?? ""}
           className={cn(underlineControl, "cursor-pointer")}
         >
           <option value="" disabled hidden>

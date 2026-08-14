@@ -1,76 +1,112 @@
-import type { Block, EmailTemplate } from "./strapi";
+import type { FormRecipient } from "./strapi";
 
 /** Escape user/CMS text for safe inclusion in HTML. */
 const esc = (s: string) =>
   s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
-/** Inline leaves + links → HTML (bold / italic / underline / code). */
-function inlineHtml(nodes?: Block[]): string {
-  if (!nodes) return "";
-  return nodes
-    .map((n) => {
-      if (n.type === "link") return `<a href="${esc(n.url ?? "#")}" style="color:#a85a32;">${inlineHtml(n.children)}</a>`;
-      let t = esc(n.text ?? "");
-      if (n.code) t = `<code>${t}</code>`;
-      if (n.bold) t = `<strong>${t}</strong>`;
-      if (n.italic) t = `<em>${t}</em>`;
-      if (n.underline) t = `<u>${t}</u>`;
-      return t;
-    })
-    .join("");
+// ---------- notification-email wording (in code, not the CMS) ----------
+interface Wording {
+  /** Subject line of the staff notification. */
+  subject: string;
+  /** Line above the submitted-details table. */
+  intro: string;
+  /** Small print below the table. */
+  footer: string;
+  /** Subject of the "reply to customer" mailto the staff button pre-fills. */
+  customerSubject: string;
+  /** Greeting above the recap in the customer reply (`{name}` substituted). */
+  customerGreeting: string;
+  /** Closing below the recap in the customer reply (`{name}` substituted). */
+  customerClosing: string;
 }
 
-/** Strapi "blocks" rich text → email-safe HTML (paragraphs, headings, lists, quotes). */
-function blocksHtml(blocks?: Block[]): string {
-  if (!blocks?.length) return "";
-  return blocks
-    .map((b) => {
-      switch (b.type) {
-        case "heading": {
-          const lvl = Math.min(Math.max(b.level ?? 2, 2), 4);
-          return `<h${lvl} style="margin:0 0 12px;font-family:Georgia,serif;color:#2b2421;">${inlineHtml(b.children)}</h${lvl}>`;
-        }
-        case "list": {
-          const tag = b.format === "ordered" ? "ol" : "ul";
-          const items = (b.children ?? []).map((li) => `<li>${inlineHtml(li.children)}</li>`).join("");
-          return `<${tag} style="margin:0 0 12px 20px;padding:0;font-family:Georgia,serif;font-size:16px;color:rgba(43,36,33,0.8);">${items}</${tag}>`;
-        }
-        case "quote":
-          return `<blockquote style="margin:0 0 12px;padding-left:16px;border-left:2px solid #bb9257;font-family:Georgia,serif;font-style:italic;color:rgba(43,36,33,0.8);">${inlineHtml(b.children)}</blockquote>`;
-        default:
-          return `<p style="margin:0 0 12px;font-family:Georgia,serif;font-size:16px;line-height:1.6;color:rgba(43,36,33,0.8);">${inlineHtml(b.children)}</p>`;
-      }
-    })
-    .join("");
-}
+const FOOTER_EN = "Sent automatically from the Kalvárium 1910 website.";
+const FOOTER_SK = "Odoslané automaticky z webovej stránky Kalvárium 1910.";
 
-/** Plain-text version of blocks (for the multipart text/plain body). */
-function blocksText(blocks?: Block[]): string {
-  if (!blocks?.length) return "";
-  const line = (nodes?: Block[]): string =>
-    (nodes ?? []).map((n) => (n.type === "link" ? line(n.children) : (n.text ?? ""))).join("");
-  return blocks
-    .map((b) => (b.type === "list" ? (b.children ?? []).map((li) => `- ${line(li.children)}`).join("\n") : line(b.children)))
-    .join("\n\n");
-}
+const TEMPLATES: Record<"en" | "sk", Record<FormRecipient, Wording>> = {
+  en: {
+    reservation: {
+      subject: "Reservation request",
+      intro: "A new reservation request has been submitted through the website:",
+      footer: FOOTER_EN,
+      customerSubject: "Your reservation – Kalvárium 1910",
+      customerGreeting: "Dear {name},\n\nthank you for your reservation request. We received the following details:",
+      customerClosing: "We will get back to you shortly to confirm your table.\n\nKind regards,\nKalvárium 1910",
+    },
+    upstairs: {
+      subject: "Upstairs enquiry",
+      intro: "A new enquiry about the Upstairs space has been submitted through the website:",
+      footer: FOOTER_EN,
+      customerSubject: "Your enquiry – Kalvárium 1910 (Upstairs)",
+      customerGreeting: "Dear {name},\n\nthank you for your enquiry about our Upstairs space. We received:",
+      customerClosing: "We will get back to you shortly.\n\nKind regards,\nKalvárium 1910",
+    },
+    cakes: {
+      subject: "Cake order",
+      intro: "A new cake order has been submitted through the website:",
+      footer: FOOTER_EN,
+      customerSubject: "Your cake order – Kalvárium 1910",
+      customerGreeting: "Dear {name},\n\nthank you for your cake order. We received:",
+      customerClosing: "We will confirm availability and pickup shortly.\n\nKind regards,\nKalvárium 1910",
+    },
+  },
+  sk: {
+    reservation: {
+      subject: "Žiadosť o rezerváciu",
+      intro: "Cez webovú stránku bola odoslaná nová žiadosť o rezerváciu:",
+      footer: FOOTER_SK,
+      customerSubject: "Vaša rezervácia – Kalvárium 1910",
+      customerGreeting: "Dobrý deň {name},\n\nďakujeme za vašu žiadosť o rezerváciu. Prijali sme tieto údaje:",
+      customerClosing: "Čoskoro sa vám ozveme s potvrdením.\n\nS pozdravom,\nKalvárium 1910",
+    },
+    upstairs: {
+      subject: "Dopyt – priestor Hore",
+      intro: "Cez webovú stránku bol odoslaný nový dopyt na priestor Hore:",
+      footer: FOOTER_SK,
+      customerSubject: "Váš dopyt – Kalvárium 1910 (priestor Hore)",
+      customerGreeting: "Dobrý deň {name},\n\nďakujeme za váš dopyt na priestor Hore. Prijali sme:",
+      customerClosing: "Čoskoro sa vám ozveme.\n\nS pozdravom,\nKalvárium 1910",
+    },
+    cakes: {
+      subject: "Objednávka torty",
+      intro: "Cez webovú stránku bola odoslaná nová objednávka torty:",
+      footer: FOOTER_SK,
+      customerSubject: "Vaša objednávka torty – Kalvárium 1910",
+      customerGreeting: "Dobrý deň {name},\n\nďakujeme za vašu objednávku torty. Prijali sme:",
+      customerClosing: "Čoskoro potvrdíme dostupnosť a vyzdvihnutie.\n\nS pozdravom,\nKalvárium 1910",
+    },
+  },
+};
 
 export interface EmailField {
   label: string;
   value: string;
 }
 
+export interface RenderOpts {
+  /** Customer's email (from a form field) — enables the "reply to customer" button. */
+  customerEmail?: string;
+  /** Customer's name (from a name-ish field) — fills `{name}` and the subject. */
+  customerName?: string;
+  /** Locale for the wording (default en). */
+  locale?: "sk" | "en";
+}
+
 /**
- * Render the branded HTML + plain-text bodies for a form-notification email.
- * The CMS `template` supplies the intro/footer wording; the submitted `fields`
- * are rendered as a label/value table. Table-based, inline-styled layout for
- * broad email-client support (Playfair/Cormorant fall back to Georgia).
+ * Render the branded HTML + plain-text bodies and subject for a form-notification
+ * email. All wording is defined in code (TEMPLATES above); the submitted `fields`
+ * are rendered as a label/value table. Table-based inline styles for broad
+ * email-client support (Playfair/Cormorant fall back to Georgia).
  */
 export function renderFormEmail(
-  template: EmailTemplate | undefined,
+  recipient: FormRecipient,
   fields: EmailField[],
-): { html: string; text: string } {
-  const intro = blocksHtml(template?.intro);
-  const footer = blocksHtml(template?.footer);
+  opts?: RenderOpts,
+): { html: string; text: string; subject: string } {
+  const locale = opts?.locale === "sk" ? "sk" : "en";
+  const t = TEMPLATES[locale][recipient];
+  const name = opts?.customerName ?? "";
+  const fill = (s: string) => s.replace(/\{name\}/g, name).trim();
 
   const rows = fields
     .map(
@@ -81,6 +117,26 @@ export function renderFormEmail(
         </tr>`,
     )
     .join("");
+
+  const introHtml = `<p style="margin:0 0 12px;font-family:Georgia,serif;font-size:16px;line-height:1.6;color:rgba(43,36,33,0.8);">${esc(t.intro)}</p>`;
+  const footerHtml = `<p style="margin:16px 0 0;font-family:Georgia,serif;font-size:13px;color:rgba(43,36,33,0.5);">${esc(t.footer)}</p>`;
+
+  // "Reply to customer" button: a mailto pre-filled with the recap + greeting/closing.
+  const recap = fields.map((f) => `${f.label}: ${f.value}`).join("\n");
+  const customerBody = [fill(t.customerGreeting), recap, fill(t.customerClosing)].filter(Boolean).join("\n\n");
+  const buttonLabel = locale === "sk" ? "Odpovedať zákazníkovi" : "Reply to customer";
+  const mailto = opts?.customerEmail
+    ? `mailto:${opts.customerEmail}?subject=${encodeURIComponent(t.customerSubject)}&body=${encodeURIComponent(customerBody)}`
+    : null;
+  const button = mailto
+    ? `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:8px 0 4px;">
+                  <tr><td style="background:#a85a32;border-radius:2px;">
+                    <a href="${esc(mailto)}" style="display:inline-block;padding:13px 26px;font-family:Arial,sans-serif;font-size:13px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;color:#ffffff;text-decoration:none;">${buttonLabel} &rarr;</a>
+                  </td></tr>
+                </table>`
+    : "";
+
+  const subject = name ? `${t.subject} — ${name}` : t.subject;
 
   const html = `<!doctype html>
 <html>
@@ -96,9 +152,10 @@ export function renderFormEmail(
             </tr>
             <tr>
               <td style="padding:32px;">
-                ${intro}
+                ${introHtml}
                 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:20px 0;border-collapse:collapse;">${rows}</table>
-                ${footer}
+                ${button}
+                ${footerHtml}
               </td>
             </tr>
           </table>
@@ -109,9 +166,9 @@ export function renderFormEmail(
 </html>`;
 
   const text =
-    [blocksText(template?.intro), fields.map((f) => `${f.label}: ${f.value}`).join("\n"), blocksText(template?.footer)]
+    [t.intro, recap, t.footer, opts?.customerEmail ? `Reply to customer: ${opts.customerEmail}` : ""]
       .filter(Boolean)
       .join("\n\n") + "\n";
 
-  return { html, text };
+  return { html, text, subject };
 }

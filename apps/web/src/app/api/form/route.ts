@@ -3,12 +3,6 @@ import nodemailer from "nodemailer";
 import { getEmails, getGeneralInfo, type FormRecipient } from "@/lib/strapi";
 import { renderFormEmail } from "@/lib/email";
 
-const SUBJECT: Record<FormRecipient, string> = {
-  reservation: "Reservation request",
-  upstairs: "Upstairs enquiry",
-  cakes: "Cake order",
-};
-
 /**
  * Form endpoint — validates a submission (reservation, cake order, enquiry, …)
  * and emails it to the restaurant. SMTP is configured via env:
@@ -54,11 +48,9 @@ export async function POST(req: Request) {
   }
 
   // Recipient chosen on the form → the matching address in the Email single type.
-  const emails = await getEmails(locale);
+  const emails = await getEmails();
   const chosen =
     recipient === "cakes" ? emails?.cakesEmail : recipient === "upstairs" ? emails?.upstairsEmail : emails?.reservationEmail;
-  const template =
-    recipient === "cakes" ? emails?.cakesTemplate : recipient === "upstairs" ? emails?.upstairsTemplate : emails?.reservationTemplate;
   const to = chosen || process.env.RESERVATION_TO || (await getGeneralInfo())?.contact?.email;
   if (!to) {
     return NextResponse.json({ ok: false, error: "No recipient configured." }, { status: 500 });
@@ -75,15 +67,21 @@ export async function POST(req: Request) {
   // Reply to whatever field holds an email address; name the subject after a name-ish field.
   const replyTo = fields.find((f) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.value))?.value;
   const nameField = fields.find((f) => /name|meno/i.test(f.label))?.value;
-  const subjectBase = template?.subject || SUBJECT[recipient];
-  const { html, text } = renderFormEmail(template, fields);
+  const { html, text, subject } = renderFormEmail(recipient, fields, {
+    customerEmail: replyTo,
+    customerName: nameField,
+    locale,
+  });
 
+  // Sender address must stay on our domain (SPF/DKIM), but show the customer's name
+  // and set Reply-To to their address, so replying goes straight to them.
+  const fromAddress = process.env.SMTP_FROM ?? user;
   try {
     await transporter.sendMail({
-      from: process.env.SMTP_FROM ?? user,
+      from: nameField ? { name: nameField, address: fromAddress } : fromAddress,
       to,
       replyTo: replyTo || undefined,
-      subject: nameField ? `${subjectBase} — ${nameField}` : subjectBase,
+      subject,
       text,
       html,
     });

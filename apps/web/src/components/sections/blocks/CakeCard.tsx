@@ -16,6 +16,7 @@ import {
   Image,
 } from "@/components/ui";
 import { media, type Cake } from "@/lib/strapi";
+import { openCakeOrder } from "@/lib/cake-order";
 
 /** First sentence only — text up to and including the first period. */
 const firstSentence = (text: string) => {
@@ -145,11 +146,25 @@ export function CakeCard({ cake, orderHref, orderLabel, callLabel, allergensLabe
 
                 {(orderHref || phone) && (
                   <div className="mt-2 flex gap-4">
-                    {orderHref && (
-                      <Button variant={ButtonVariant.Primary} href={orderHref} className="flex-1">
-                        {orderLabel ?? "Order"}
-                      </Button>
-                    )}
+                    {orderHref &&
+                      (orderHref.startsWith("#") ? (
+                        // Dialog order form: close this detail dialog and open the
+                        // order form with THIS cake pre-selected.
+                        <Button
+                          variant={ButtonVariant.Primary}
+                          onClick={() => {
+                            setOpen(false);
+                            openCakeOrder(cake.name);
+                          }}
+                          className="flex-1"
+                        >
+                          {orderLabel ?? "Order"}
+                        </Button>
+                      ) : (
+                        <Button variant={ButtonVariant.Primary} href={orderHref} className="flex-1">
+                          {orderLabel ?? "Order"}
+                        </Button>
+                      ))}
                     {phone && (
                       <Button variant={ButtonVariant.Secondary} href={`tel:${phone}`} className="flex-1">
                         {callLabel ?? "Call"}

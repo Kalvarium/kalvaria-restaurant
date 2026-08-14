@@ -330,20 +330,6 @@ export interface SharedContact extends Struct.ComponentSchema {
   };
 }
 
-export interface SharedEmailTemplate extends Struct.ComponentSchema {
-  collectionName: 'components_shared_email_templates';
-  info: {
-    description: "Wording for a form-notification email: subject line, an intro above the details, and an optional footer. The customer's submitted fields are appended automatically.";
-    displayName: 'Email Template';
-    icon: 'envelop';
-  };
-  attributes: {
-    footer: Schema.Attribute.Blocks;
-    intro: Schema.Attribute.Blocks;
-    subject: Schema.Attribute.String & Schema.Attribute.Required;
-  };
-}
-
 export interface SharedFormField extends Struct.ComponentSchema {
   collectionName: 'components_shared_form_fields';
   info: {
@@ -529,7 +515,6 @@ declare module '@strapi/strapi' {
       'sections.venue-info': SectionsVenueInfo;
       'shared.badge': SharedBadge;
       'shared.contact': SharedContact;
-      'shared.email-template': SharedEmailTemplate;
       'shared.form-field': SharedFormField;
       'shared.info-card': SharedInfoCard;
       'shared.info-row': SharedInfoRow;
