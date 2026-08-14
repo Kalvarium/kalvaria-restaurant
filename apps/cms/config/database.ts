@@ -55,7 +55,12 @@ const config = ({ env }: Core.Config.Shared.ConfigParams): Core.Config.Database 
     sqlite: {
       client: 'sqlite',
       connection: {
-        filename: path.join(__dirname, '..', '..', env('DATABASE_FILENAME', '.tmp/data.db')),
+        // Absolute DATABASE_FILENAME (e.g. a Railway volume like /data/data.db) is used
+        // as-is; a relative one is resolved against the CMS root (default .tmp/data.db).
+        filename: (() => {
+          const file = env('DATABASE_FILENAME', '.tmp/data.db');
+          return path.isAbsolute(file) ? file : path.join(__dirname, '..', '..', file);
+        })(),
       },
       useNullAsDefault: true,
     },
