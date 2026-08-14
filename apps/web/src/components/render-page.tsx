@@ -6,7 +6,7 @@ import { Header } from "@/components/sections/Header";
 import { ScrollProgress } from "@/components/sections/ScrollProgress";
 import { Footer } from "@/components/sections/Footer";
 import { Sections } from "@/components/sections/Sections";
-import { getGeneralInfo, getCakes, getFeaturedCafes, getFeaturedCakes, getGlobal, getPage, media, PageSlug, SectionComponent } from "@/lib/strapi";
+import { getGeneralInfo, getCakes, getFeaturedCafes, getFeaturedCakes, getGlobal, getPage, media, ogImages, PageSlug, SectionComponent } from "@/lib/strapi";
 import { DEFAULT_LOCALE, isLocale, LOCALE_COOKIE, type Locale } from "@/lib/i18n";
 
 /** Locale from the NEXT_LOCALE cookie, falling back to the default. */
@@ -34,8 +34,7 @@ export async function pageMetadata(slug: string): Promise<Metadata> {
   const keywords = page.seo?.keywords ?? global?.defaultSeo?.keywords;
   // Page-specific OG image, else the site default (Global → defaultSeo). Set here
   // explicitly because Next replaces (doesn't deep-merge) a child's `openGraph`.
-  const ogImage = media(page.seo?.ogImage?.url ?? global?.defaultSeo?.ogImage?.url);
-  const images = ogImage ? [ogImage] : undefined;
+  const images = ogImages(page.seo?.ogImage ?? global?.defaultSeo?.ogImage);
   // Cookie-based i18n → one canonical URL per page (home at "/").
   const path = slug === PageSlug.Home ? "/" : `/${slug}`;
   return {

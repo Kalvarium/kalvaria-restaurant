@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import { fontVariables } from "@/lib/fonts";
 import { DEFAULT_LOCALE, isLocale, LOCALE_COOKIE, type Locale } from "@/lib/i18n";
 import { LocaleProvider } from "@/lib/locale-context";
-import { getGlobal, media } from "@/lib/strapi";
+import { getGlobal, media, ogImages } from "@/lib/strapi";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 import "@/styles/globals.css";
 
@@ -23,8 +23,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const seo = global?.defaultSeo;
   const title = seo?.metaTitle ?? TITLE;
   const description = seo?.metaDescription ?? DESCRIPTION;
-  const ogImage = media(seo?.ogImage?.url);
-  const images = ogImage ? [ogImage] : undefined;
+  const images = ogImages(seo?.ogImage);
 
   return {
     // Makes OG/canonical relative URLs resolve absolute.
