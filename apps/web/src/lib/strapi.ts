@@ -27,21 +27,6 @@ export interface StrapiMedia {
   height?: number;
   mime?: string;
 }
-
-/**
- * Build the OG/Twitter `images` array with absolute URL + width/height + type.
- * WhatsApp (unlike most OG checkers) needs the dimensions to render a preview, so
- * always emit them. Returns undefined when there's no image.
- */
-export function ogImages(
-  img?: StrapiMedia | null,
-): { url: string; width?: number; height?: number; type?: string }[] | undefined {
-  const url = media(img?.url);
-  if (!url) return undefined;
-  const lower = url.toLowerCase();
-  const type = img?.mime ?? (lower.endsWith(".png") ? "image/png" : /\.jpe?g$/.test(lower) ? "image/jpeg" : undefined);
-  return [{ url, width: img?.width, height: img?.height, type }];
-}
 export interface Link {
   label: string;
   href: string;

@@ -6,7 +6,8 @@ import { Header } from "@/components/sections/Header";
 import { ScrollProgress } from "@/components/sections/ScrollProgress";
 import { Footer } from "@/components/sections/Footer";
 import { Sections } from "@/components/sections/Sections";
-import { getGeneralInfo, getCakes, getFeaturedCafes, getFeaturedCakes, getGlobal, getPage, media, ogImages, PageSlug, SectionComponent } from "@/lib/strapi";
+import { getGeneralInfo, getCakes, getFeaturedCafes, getFeaturedCakes, getGlobal, getPage, media, PageSlug, SectionComponent } from "@/lib/strapi";
+import { ogImages } from "@/lib/site";
 import { DEFAULT_LOCALE, isLocale, LOCALE_COOKIE, type Locale } from "@/lib/i18n";
 
 /** Locale from the NEXT_LOCALE cookie, falling back to the default. */

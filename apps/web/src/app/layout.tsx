@@ -3,8 +3,8 @@ import { cookies } from "next/headers";
 import { fontVariables } from "@/lib/fonts";
 import { DEFAULT_LOCALE, isLocale, LOCALE_COOKIE, type Locale } from "@/lib/i18n";
 import { LocaleProvider } from "@/lib/locale-context";
-import { getGlobal, media, ogImages } from "@/lib/strapi";
-import { SITE_NAME, SITE_URL } from "@/lib/site";
+import { getGlobal, media } from "@/lib/strapi";
+import { ogImages, SITE_NAME, SITE_URL } from "@/lib/site";
 import "@/styles/globals.css";
 
 const DESCRIPTION =
