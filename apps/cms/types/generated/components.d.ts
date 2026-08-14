@@ -445,21 +445,6 @@ export interface SharedOpeningHours extends Struct.ComponentSchema {
   };
 }
 
-export interface SharedReservation extends Struct.ComponentSchema {
-  collectionName: 'components_shared_reservations';
-  info: {
-    description: 'How guests reserve a table.';
-    displayName: 'Reservation';
-    icon: 'calendar';
-  };
-  attributes: {
-    email: Schema.Attribute.Email;
-    enabled: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
-    phone: Schema.Attribute.String;
-    url: Schema.Attribute.String;
-  };
-}
-
 export interface SharedSeo extends Struct.ComponentSchema {
   collectionName: 'components_shared_seos';
   info: {
@@ -521,7 +506,6 @@ declare module '@strapi/strapi' {
       'shared.link': SharedLink;
       'shared.list-item': SharedListItem;
       'shared.opening-hours': SharedOpeningHours;
-      'shared.reservation': SharedReservation;
       'shared.seo': SharedSeo;
       'shared.social-link': SharedSocialLink;
     }

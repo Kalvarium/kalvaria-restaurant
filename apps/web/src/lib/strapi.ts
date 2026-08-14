@@ -55,7 +55,6 @@ export interface Global {
   footerSocialHeading?: string;
   footerLegal?: string;
   socialLinks?: SocialLink[];
-  reservation?: { enabled: boolean; url?: string; email?: string; phone?: string };
 }
 
 // ---------- rich-text blocks (Strapi "blocks" editor) ----------
@@ -504,7 +503,7 @@ export interface GeneralInfoEntry {
 
 const GENERAL_INFO_POPULATE = ["populate[contact]=true", "populate[socialLinks]=true"].join("&");
 
-/** General Info single type (address, socials, reservation) — shared across all languages. */
+/** General Info single type (address, socials) — shared across all languages. */
 export async function getGeneralInfo(): Promise<GeneralInfoEntry | null> {
   return strapiGet<GeneralInfoEntry>(`general-info?${GENERAL_INFO_POPULATE}`);
 }

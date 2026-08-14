@@ -5,7 +5,7 @@
     "singularName": "cake",
     "pluralName": "cakes",
     "displayName": "Cake",
-    "description": "The product catalog — one entry per cake or item the café offers (Medovník, Punčová torta, coffee…). Holds the photos, name, description, price and category. Display only: cakes are shown on the site but not sold online. Edited once here, they appear anywhere a Cake Grid block is placed. Use 'available' to hide an item without deleting it, and 'featured' to surface it in featured grids."
+    "description": "The product catalog — one entry per cake or item the café offers (Medovník, Punčová torta, coffee…). Holds the photos, name, description and price. Display only: cakes are shown on the site but not sold online. Edited once here, they appear anywhere a Cake Grid block is placed. Use 'available' to hide an item without deleting it, and 'featured' to surface it in featured grids."
   },
   "options": {
     "draftAndPublish": true
@@ -87,12 +87,6 @@
           "localized": false
         }
       }
-    },
-    "category": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::category.category",
-      "inversedBy": "cakes"
     },
     "badge": {
       "type": "component",

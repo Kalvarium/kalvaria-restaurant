@@ -566,7 +566,7 @@ export interface ApiCafeCafe extends Struct.CollectionTypeSchema {
 export interface ApiCakeCake extends Struct.CollectionTypeSchema {
   collectionName: 'cakes';
   info: {
-    description: "The product catalog \u2014 one entry per cake or item the caf\u00E9 offers (Medovn\u00EDk, Pun\u010Dov\u00E1 torta, coffee\u2026). Holds the photos, name, description, price and category. Display only: cakes are shown on the site but not sold online. Edited once here, they appear anywhere a Cake Grid block is placed. Use 'available' to hide an item without deleting it, and 'featured' to surface it in featured grids.";
+    description: "The product catalog \u2014 one entry per cake or item the caf\u00E9 offers (Medovn\u00EDk, Pun\u010Dov\u00E1 torta, coffee\u2026). Holds the photos, name, description and price. Display only: cakes are shown on the site but not sold online. Edited once here, they appear anywhere a Cake Grid block is placed. Use 'available' to hide an item without deleting it, and 'featured' to surface it in featured grids.";
     displayName: 'Cake';
     pluralName: 'cakes';
     singularName: 'cake';
@@ -599,7 +599,6 @@ export interface ApiCakeCake extends Struct.CollectionTypeSchema {
           localized: true;
         };
       }>;
-    category: Schema.Attribute.Relation<'manyToOne', 'api::category.category'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -677,66 +676,6 @@ export interface ApiCakeCake extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
-  collectionName: 'categories';
-  info: {
-    description: "The groupings used to organise the catalog \u2014 one entry per category (Torty, Z\u00E1kusky, N\u00E1poje, K\u00E1va\u2026). Each cake belongs to one category, and a Cake Grid block can filter to a single category by its slug. Reorder categories with 'rank'.";
-    displayName: 'Category';
-    pluralName: 'categories';
-    singularName: 'category';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  pluginOptions: {
-    i18n: {
-      localized: true;
-    };
-  };
-  attributes: {
-    cakes: Schema.Attribute.Relation<'oneToMany', 'api::cake.cake'>;
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    description: Schema.Attribute.Text &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    locale: Schema.Attribute.String;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::category.category'
-    >;
-    name: Schema.Attribute.String &
-      Schema.Attribute.Required &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    publishedAt: Schema.Attribute.DateTime;
-    rank: Schema.Attribute.Integer &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: false;
-        };
-      }> &
-      Schema.Attribute.DefaultTo<0>;
-    slug: Schema.Attribute.UID<'name'> &
-      Schema.Attribute.Required &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
 export interface ApiEmailEmail extends Struct.SingleTypeSchema {
   collectionName: 'emails';
   info: {
@@ -768,7 +707,7 @@ export interface ApiEmailEmail extends Struct.SingleTypeSchema {
 export interface ApiGeneralInfoGeneralInfo extends Struct.SingleTypeSchema {
   collectionName: 'contacts';
   info: {
-    description: 'Site-wide details, edited once and shared across all languages: address / phone / email, social links, and how guests reserve a table. (Opening hours live on the Card Grid, which is localized, since day labels differ per language.)';
+    description: 'Site-wide details, edited once and shared across all languages: address / phone / email and social links. (Opening hours live on the Card Grid, which is localized, since day labels differ per language.)';
     displayName: 'General Info';
     pluralName: 'general-infos';
     singularName: 'general-info';
@@ -789,7 +728,6 @@ export interface ApiGeneralInfoGeneralInfo extends Struct.SingleTypeSchema {
     > &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
-    reservation: Schema.Attribute.Component<'shared.reservation', false>;
     socialLinks: Schema.Attribute.Component<'shared.social-link', true>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -1471,7 +1409,6 @@ declare module '@strapi/strapi' {
       'admin::user': AdminUser;
       'api::cafe.cafe': ApiCafeCafe;
       'api::cake.cake': ApiCakeCake;
-      'api::category.category': ApiCategoryCategory;
       'api::email.email': ApiEmailEmail;
       'api::general-info.general-info': ApiGeneralInfoGeneralInfo;
       'api::global.global': ApiGlobalGlobal;
