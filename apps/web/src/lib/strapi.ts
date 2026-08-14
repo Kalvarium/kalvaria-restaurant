@@ -7,7 +7,10 @@ import type { BadgeVariant } from "@/components/ui";
 import type { SectionBackground } from "./section-background";
 import { DEFAULT_LOCALE, type Locale } from "./i18n";
 
-const STRAPI_URL = process.env.STRAPI_URL ?? "http://localhost:1337";
+// Public Strapi base URL. `NEXT_PUBLIC_` so it's available in the browser too —
+// `media()` runs in client components (CakeCard/CafeCard/Form), so image URLs are
+// built client-side. `STRAPI_URL` kept as a server-only fallback for older setups.
+const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL ?? process.env.STRAPI_URL ?? "http://localhost:1337";
 
 /** Absolute URL for a Strapi media path (`/uploads/…` → full origin). */
 export function media(url: string | undefined | null): string | undefined {
