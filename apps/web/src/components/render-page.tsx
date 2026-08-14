@@ -29,7 +29,23 @@ export async function pageMetadata(slug: string): Promise<Metadata> {
   const title =
     page.seo?.metaTitle ??
     (slug === PageSlug.Home ? siteName : `${page.title} - ${siteName}`);
-  return { title, description: page.seo?.metaDescription };
+  // Per-page SEO overrides; fall back to the site default (Global → defaultSeo).
+  const description = page.seo?.metaDescription ?? global?.defaultSeo?.metaDescription;
+  const keywords = page.seo?.keywords ?? global?.defaultSeo?.keywords;
+  // Page-specific OG image, else the site default (Global → defaultSeo). Set here
+  // explicitly because Next replaces (doesn't deep-merge) a child's `openGraph`.
+  const ogImage = media(page.seo?.ogImage?.url ?? global?.defaultSeo?.ogImage?.url);
+  const images = ogImage ? [ogImage] : undefined;
+  // Cookie-based i18n → one canonical URL per page (home at "/").
+  const path = slug === PageSlug.Home ? "/" : `/${slug}`;
+  return {
+    title,
+    description,
+    keywords,
+    alternates: { canonical: path },
+    openGraph: { type: "website", siteName, url: path, title, description, ...(images ? { images } : {}) },
+    twitter: { card: "summary_large_image", title, description, ...(images ? { images } : {}) },
+  };
 }
 
 /**

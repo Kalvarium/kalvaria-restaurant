@@ -43,6 +43,13 @@ export interface SocialLink {
   platform: "instagram" | "facebook" | "tiktok" | "youtube" | "tripadvisor" | "other";
   url: string;
 }
+/** SEO meta (`shared.seo` component) — per-page on `page.seo`, and the site default on `global.defaultSeo`. */
+export interface Seo {
+  metaTitle?: string;
+  metaDescription?: string;
+  keywords?: string;
+  ogImage?: StrapiMedia | null;
+}
 export interface Global {
   siteName: string;
   tagline?: string;
@@ -55,6 +62,8 @@ export interface Global {
   footerSocialHeading?: string;
   footerLegal?: string;
   socialLinks?: SocialLink[];
+  /** Default title/description/keywords/OG image for the whole site. */
+  defaultSeo?: Seo;
 }
 
 // ---------- rich-text blocks (Strapi "blocks" editor) ----------
@@ -406,7 +415,7 @@ export interface PageEntry {
   title: string;
   slug: string;
   sections: Section[];
-  seo?: { metaTitle: string; metaDescription: string; keywords?: string };
+  seo?: Seo;
 }
 
 // ---------- cakes ----------
@@ -480,13 +489,14 @@ const PAGE_POPULATE = [
   "populate[sections][on][sections.form][populate][image]=true",
   "populate[sections][on][sections.form][populate][fields]=true",
   "populate[sections][on][sections.form][populate][content][populate][button]=true",
-  "populate[seo]=true",
+  "populate[seo][populate]=*",
 ].join("&");
 
 const GLOBAL_POPULATE = [
   "populate[navigation]=true",
   "populate[headerCta]=true",
   "populate[logo]=true",
+  "populate[defaultSeo][populate]=*",
 ].join("&");
 
 /** Global site settings for a locale, falling back to the default locale. */

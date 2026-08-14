@@ -3,16 +3,40 @@ import { cookies } from "next/headers";
 import { fontVariables } from "@/lib/fonts";
 import { DEFAULT_LOCALE, isLocale, LOCALE_COOKIE, type Locale } from "@/lib/i18n";
 import { LocaleProvider } from "@/lib/locale-context";
+import { getGlobal, media } from "@/lib/strapi";
+import { SITE_NAME, SITE_URL } from "@/lib/site";
 import "@/styles/globals.css";
 
-export const metadata: Metadata = {
-  title: "Kalvárium 1910 — Kaviareň & Torty, Nitra",
-  description:
-    "Historický dom s dušou v srdci Nitry. Domáce torty, výberová káva a priestor pre vaše oslavy.",
-  icons: {
-    icon: [{ url: "/kalvarium_logo_black.svg", type: "image/svg+xml" }],
-  },
-};
+const DESCRIPTION =
+  "Historický dom s dušou v srdci Nitry. Domáce torty, výberová káva a priestor pre vaše oslavy.";
+const TITLE = `${SITE_NAME} — Kaviareň & Torty, Nitra`;
+
+export async function generateMetadata(): Promise<Metadata> {
+  const global = await getGlobal();
+
+  // Favicon = the logo from the Global single type (falls back to the bundled SVG).
+  const logo = media(global?.logo?.url) ?? "/kalvarium_logo_black.svg";
+  const iconType = logo.endsWith(".svg") ? "image/svg+xml" : "image/png";
+
+  // Site-wide SEO defaults come from Global → defaultSeo (title, description,
+  // keywords, OG image), with hardcoded fallbacks if it's unset.
+  const seo = global?.defaultSeo;
+  const title = seo?.metaTitle ?? TITLE;
+  const description = seo?.metaDescription ?? DESCRIPTION;
+  const ogImage = media(seo?.ogImage?.url);
+  const images = ogImage ? [ogImage] : undefined;
+
+  return {
+    // Makes OG/canonical relative URLs resolve absolute.
+    metadataBase: new URL(SITE_URL),
+    title,
+    description,
+    keywords: seo?.keywords,
+    icons: { icon: [{ url: logo, type: iconType }], apple: logo },
+    openGraph: { type: "website", siteName: SITE_NAME, locale: "sk_SK", url: SITE_URL, title, description, images },
+    twitter: { card: "summary_large_image", title, description, images },
+  };
+}
 
 export default async function RootLayout({
   children,
