@@ -14,9 +14,9 @@ const TITLE = `${SITE_NAME} — Kaviareň & Torty, Nitra`;
 export async function generateMetadata(): Promise<Metadata> {
   const global = await getGlobal();
 
-  // Favicon = the logo from the Global single type (falls back to the bundled SVG).
-  const logo = media(global?.logo?.url) ?? "/kalvarium_logo_black.svg";
-  const iconType = logo.endsWith(".svg") ? "image/svg+xml" : "image/png";
+  // Favicon = the Global logo, but served same-origin via /site-icon (a proxy) so
+  // Google/browsers fetch it from the main domain, not the cross-origin CMS subdomain.
+  const iconType = (media(global?.logo?.url) ?? ".svg").endsWith(".svg") ? "image/svg+xml" : "image/png";
 
   // Site-wide SEO defaults come from Global → defaultSeo (title, description,
   // keywords, OG image), with hardcoded fallbacks if it's unset.
@@ -31,7 +31,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title,
     description,
     keywords: seo?.keywords,
-    icons: { icon: [{ url: logo, type: iconType }], apple: logo },
+    icons: { icon: [{ url: "/site-icon", type: iconType }], apple: "/site-icon" },
     openGraph: { type: "website", siteName: SITE_NAME, locale: "sk_SK", url: SITE_URL, title, description, images },
     twitter: { card: "summary_large_image", title, description, images },
   };
