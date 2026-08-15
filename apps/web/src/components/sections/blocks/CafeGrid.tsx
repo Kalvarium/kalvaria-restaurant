@@ -14,8 +14,9 @@ export function CafeGrid({
   phone?: string;
   reserveHref?: string;
 }) {
-  // Editor-curated items take priority; otherwise fall back to all available items.
-  const source = s.cafes && s.cafes.length > 0 ? s.cafes : cafes;
+  // Editor-curated items take priority; otherwise the featured list. Hide unavailable
+  // ones (the fallback list is pre-filtered, but curated picks aren't).
+  const source = (s.cafes && s.cafes.length > 0 ? s.cafes : cafes).filter((c) => c.available !== false);
   // Wide tiles are full-width overlay banners — keep them at the end of the grid.
   const items = source
     .slice(0, s.limit ?? 8)

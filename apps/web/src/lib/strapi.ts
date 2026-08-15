@@ -433,6 +433,8 @@ export interface Cake {
   priceUnit?: string;
   image?: StrapiMedia[];
   badge?: { label: string; variant?: BadgeVariant } | null;
+  /** When false, the item is hidden everywhere (grids + curated). */
+  available?: boolean;
 }
 
 // ---------- cafe menu ----------
@@ -450,6 +452,8 @@ export interface Cafe {
   badge?: { label: string; variant?: BadgeVariant } | null;
   /** Render as a wide, image-only overlay tile spanning 2 columns (e.g. Soft-Serve, Lemonades). */
   wide?: boolean;
+  /** When false, the item is hidden everywhere (grids + curated). */
+  available?: boolean;
 }
 
 // ---------- fetching ----------

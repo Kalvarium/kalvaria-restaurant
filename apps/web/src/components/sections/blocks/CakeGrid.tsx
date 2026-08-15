@@ -5,7 +5,9 @@ import { CakeCard } from "./CakeCard";
 
 export function CakeGrid({ s, cakes, phone }: { s: CakeGridSection; cakes: Cake[]; phone?: string }) {
   // Editor-curated cakes take priority; otherwise fall back to all available cakes.
-  const source = s.cakes && s.cakes.length > 0 ? s.cakes : cakes;
+  // Editor-curated cakes take priority; otherwise the featured list. Hide unavailable
+  // ones (the fallback list is pre-filtered, but curated picks aren't).
+  const source = (s.cakes && s.cakes.length > 0 ? s.cakes : cakes).filter((c) => c.available !== false);
   const items = source.slice(0, s.limit ?? 6);
   const cta = s.ctaHeading || s.ctaButton;
   return (
