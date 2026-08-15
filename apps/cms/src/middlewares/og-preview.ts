@@ -7,8 +7,12 @@
 export default (_config: unknown, _ctx: { strapi: unknown }) => {
   return async (ctx: any, next: () => Promise<void>) => {
     if (ctx.method === 'GET' && (ctx.path === '/' || ctx.path === '')) {
-      const origin = process.env.CMS_URL || `${ctx.request.protocol}://${ctx.request.host}`;
-      const image = process.env.CMS_OG_IMAGE || `${origin}/uploads/OG_banner_8964fb079d.jpeg`;
+      // Behind Railway's proxy the container sees http; trust X-Forwarded-Proto so
+      // og:image/og:url are https (WhatsApp/FB won't render an http image).
+      const proto = ctx.get('x-forwarded-proto') || ctx.request.protocol;
+      const origin = process.env.CMS_URL || `${proto}://${ctx.request.host}`;
+      // Fixed banner shipped in public/ (not read from the Media Library).
+      const image = `${origin}/og-banner.jpg`;
       const title = process.env.CMS_OG_TITLE || 'Kalvárium 1910 — CMS';
       const description = process.env.CMS_OG_DESCRIPTION || 'Content management for kalvarium.sk';
 
