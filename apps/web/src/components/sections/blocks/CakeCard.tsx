@@ -16,19 +16,13 @@ import {
   Image,
 } from "@/components/ui";
 import { media, type Cake } from "@/lib/strapi";
+import { formatPrice } from "@/lib/price";
 import { openCakeOrder } from "@/lib/cake-order";
 
 /** First sentence only — text up to and including the first period. */
 const firstSentence = (text: string) => {
   const i = text.indexOf(".");
   return (i === -1 ? text : text.slice(0, i + 1)).trim();
-};
-
-/** e.g. `from €12/box`, `€4.5`, `28 CZK` — prefix + amount + unit suffix. */
-const formatPrice = (price: number, currency: string, prefix?: string, unit?: string) => {
-  const amount = Number.isInteger(price) ? String(price) : price.toFixed(2);    
-  const money = currency === "EUR" ? `€${amount}` : `${amount} ${currency}`;
-  return `${prefix ? `${prefix} ` : ""}${money}${unit ?? ""}`;
 };
 
 export interface CakeCardProps {

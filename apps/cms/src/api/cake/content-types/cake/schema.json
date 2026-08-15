@@ -53,7 +53,10 @@
     },
     "currency": {
       "type": "enumeration",
-      "enum": ["EUR"],
+      "enum": [
+        "EUR",
+        "USD"
+      ],
       "default": "EUR",
       "pluginOptions": {
         "i18n": {
@@ -80,7 +83,9 @@
     "image": {
       "type": "media",
       "multiple": true,
-      "allowedTypes": ["images"],
+      "allowedTypes": [
+        "images"
+      ],
       "required": true,
       "pluginOptions": {
         "i18n": {

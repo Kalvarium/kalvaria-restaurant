@@ -17,6 +17,7 @@ import {
   Image,
 } from "@/components/ui";
 import { media, type Cafe } from "@/lib/strapi";
+import { formatPrice } from "@/lib/price";
 
 /** First sentence only — text up to and including the first period. */
 const firstSentence = (text: string) => {
@@ -32,12 +33,6 @@ const dotList = (text: string) =>
     .filter(Boolean)
     .join(" · ");
 
-/** e.g. `from €2.80/cup`, `€4.5`, `28 CZK` — prefix + amount + unit suffix. */
-const formatPrice = (price: number, currency: string, prefix?: string, unit?: string) => {
-  const amount = Number.isInteger(price) ? String(price) : String(price);
-  const money = currency === "EUR" ? `€${amount}` : `${amount} ${currency}`;
-  return `${prefix ? `${prefix} ` : ""}${money}${unit ?? ""}`;
-};
 
 export interface CafeCardProps {
   cafe: Cafe;
