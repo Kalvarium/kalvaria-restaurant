@@ -69,7 +69,7 @@ export function CafeCard({ cafe, reserveHref, reserveLabel, callLabel, favoriteL
   const img = media(cafe.image?.[0]?.url) ?? "";
   const alt = cafe.image?.[0]?.alternativeText ?? cafe.name;
   const badge = cafe.badge ? { label: cafe.badge.label, variant: cafe.badge.variant } : undefined;
-  const price = formatPrice(cafe.price, cafe.currency, cafe.pricePrefix, cafe.priceUnit);
+  const price = cafe.price ? formatPrice(cafe.price) : null;
 
   // Shared click-to-open behaviour for the standard and wide tiles.
   const openProps = {
@@ -160,7 +160,7 @@ export function CafeCard({ cafe, reserveHref, reserveLabel, callLabel, favoriteL
                 </div>
 
                 <hr className="border-line" />
-                <p className="font-display-alt text-hero text-rust-500 font-bold">{price}</p>
+                {price && <p className="font-display-alt text-hero text-rust-500 font-bold">{price}</p>}
 
                 {cafe.favorite && (
                   <>

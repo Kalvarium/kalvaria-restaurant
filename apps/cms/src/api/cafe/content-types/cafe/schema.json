@@ -42,38 +42,10 @@
       }
     },
     "price": {
-      "type": "decimal",
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.price",
       "required": true,
-      "min": 0,
-      "pluginOptions": {
-        "i18n": {
-          "localized": false
-        }
-      }
-    },
-    "currency": {
-      "type": "enumeration",
-      "enum": [
-        "EUR",
-        "USD"
-      ],
-      "default": "EUR",
-      "pluginOptions": {
-        "i18n": {
-          "localized": false
-        }
-      }
-    },
-    "pricePrefix": {
-      "type": "string",
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      }
-    },
-    "priceUnit": {
-      "type": "string",
       "pluginOptions": {
         "i18n": {
           "localized": true
@@ -106,15 +78,6 @@
     "wide": {
       "type": "boolean",
       "default": false,
-      "pluginOptions": {
-        "i18n": {
-          "localized": false
-        }
-      }
-    },
-    "available": {
-      "type": "boolean",
-      "default": true,
       "pluginOptions": {
         "i18n": {
           "localized": false

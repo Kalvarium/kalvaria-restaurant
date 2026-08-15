@@ -158,11 +158,8 @@ export interface CakeGridSection {
   __component: typeof SectionComponent.CakeGrid;
   id: number;
   background?: SectionBackground;
-  heading?: string;
-  intro?: string;
   /** Editor-curated cakes for this grid (drag to order). Empty → all available cakes. */
   cakes?: Cake[];
-  limit?: number;
   /** Optional "order a cake" card shown as the last grid cell. */
   ctaHeading?: string;
   ctaBody?: string;
@@ -177,15 +174,8 @@ export interface CafeGridSection {
   __component: typeof SectionComponent.CafeGrid;
   id: number;
   background?: SectionBackground;
-  heading?: string;
-  intro?: string;
   /** Editor-curated café items (drag to order). Empty → all available items. */
   cafes?: Cafe[];
-  limit?: number;
-  /** Optional "order" card shown as the last grid cell. */
-  ctaHeading?: string;
-  ctaBody?: string;
-  ctaButton?: Link;
   /** Localized UI labels for the cards / detail dialog. */
   reserveLabel?: string;
   callLabel?: string;
@@ -420,21 +410,25 @@ export interface PageEntry {
 }
 
 // ---------- cakes ----------
-export interface Cake {
-  id: number;
-  name: string;
-  description?: string;
-  allergens?: string;
-  price: number;
+/** Shared price shape (the `shared.price` component) used by cakes and cafés. */
+export interface Price {
+  amount: number;
   currency: string;
   /** Qualifier before the amount, e.g. "from" → "from €12". */
   pricePrefix?: string;
   /** Unit after the amount, e.g. "/box" → "€12/box". */
   priceUnit?: string;
-  image?: StrapiMedia[];
-  badge?: { label: string; variant?: BadgeVariant } | null;
   /** When false, the item is hidden everywhere (grids + curated). */
   available?: boolean;
+}
+export interface Cake {
+  id: number;
+  name: string;
+  description?: string;
+  allergens?: string;
+  price?: Price;
+  image?: StrapiMedia[];
+  badge?: { label: string; variant?: BadgeVariant } | null;
 }
 
 // ---------- cafe menu ----------
@@ -444,16 +438,11 @@ export interface Cafe {
   description?: string;
   /** Café equivalent of a cake's allergens — a "favourite" note, e.g. "Our baristas' pick". */
   favorite?: string;
-  price: number;
-  currency: string;
-  pricePrefix?: string;
-  priceUnit?: string;
+  price?: Price;
   image?: StrapiMedia[];
   badge?: { label: string; variant?: BadgeVariant } | null;
   /** Render as a wide, image-only overlay tile spanning 2 columns (e.g. Soft-Serve, Lemonades). */
   wide?: boolean;
-  /** When false, the item is hidden everywhere (grids + curated). */
-  available?: boolean;
 }
 
 // ---------- fetching ----------
@@ -478,10 +467,11 @@ const PAGE_POPULATE = [
   "populate[sections][on][sections.media-text][populate][image]=true",
   "populate[sections][on][sections.cake-grid][populate][cakes][populate][image]=true",
   "populate[sections][on][sections.cake-grid][populate][cakes][populate][badge]=true",
+  "populate[sections][on][sections.cake-grid][populate][cakes][populate][price]=true",
   "populate[sections][on][sections.cake-grid][populate][ctaButton]=true",
   "populate[sections][on][sections.cafe-grid][populate][cafes][populate][image]=true",
   "populate[sections][on][sections.cafe-grid][populate][cafes][populate][badge]=true",
-  "populate[sections][on][sections.cafe-grid][populate][ctaButton]=true",
+  "populate[sections][on][sections.cafe-grid][populate][cafes][populate][price]=true",
   "populate[sections][on][sections.quote][populate]=*",
   "populate[sections][on][sections.gallery][populate][images]=true",
   "populate[sections][on][sections.text][populate]=*",
@@ -561,14 +551,14 @@ export async function getPage(slug: string, locale: Locale = DEFAULT_LOCALE): Pr
 }
 
 /** Available cakes for a grid's fallback list (used when the editor hasn't curated one). */
-export async function getGridCakes(limit = 6, locale: Locale = DEFAULT_LOCALE): Promise<Cake[]> {
+export async function getGridCakes(locale: Locale = DEFAULT_LOCALE): Promise<Cake[]> {
   const qs = (loc: Locale) =>
     [
-      "filters[available][$eq]=true",
       "populate[image]=true",
       "populate[badge]=true",
+      "populate[price]=true",
       "sort[0]=name:asc",
-      `pagination[limit]=${limit}`,
+      "pagination[limit]=100",
       `locale=${loc}`,
     ].join("&");
   let data = await strapiGet<Cake[]>(`cakes?${qs(locale)}`);
@@ -581,23 +571,23 @@ export async function getGridCakes(limit = 6, locale: Locale = DEFAULT_LOCALE): 
 /** All available cakes (name is enough for a form dropdown), sorted by name. */
 export async function getCakes(locale: Locale = DEFAULT_LOCALE): Promise<Cake[]> {
   const qs = (loc: Locale) =>
-    ["filters[available][$eq]=true", "sort[0]=name:asc", "pagination[limit]=100", `locale=${loc}`].join("&");
+    ["populate[price]=true", "sort[0]=name:asc", "pagination[limit]=100", `locale=${loc}`].join("&");
   let data = await strapiGet<Cake[]>(`cakes?${qs(locale)}`);
   if ((!data || data.length === 0) && locale !== DEFAULT_LOCALE) {
     data = await strapiGet<Cake[]>(`cakes?${qs(DEFAULT_LOCALE)}`);
   }
-  return data ?? [];
+  return (data ?? []).filter((c) => c.price?.available !== false);
 }
 
 /** Available café items for a grid's fallback list (used when the editor hasn't curated one). */
-export async function getGridCafes(limit = 8, locale: Locale = DEFAULT_LOCALE): Promise<Cafe[]> {
+export async function getGridCafes(locale: Locale = DEFAULT_LOCALE): Promise<Cafe[]> {
   const qs = (loc: Locale) =>
     [
-      "filters[available][$eq]=true",
       "populate[image]=true",
       "populate[badge]=true",
+      "populate[price]=true",
       "sort[0]=name:asc",
-      `pagination[limit]=${limit}`,
+      "pagination[limit]=100",
       `locale=${loc}`,
     ].join("&");
   let data = await strapiGet<Cafe[]>(`cafes?${qs(locale)}`);

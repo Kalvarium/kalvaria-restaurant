@@ -1,0 +1,31 @@
+{
+  "collectionName": "components_shared_prices",
+  "info": {
+    "displayName": "Price",
+    "icon": "shoppingCart",
+    "description": "A menu price: amount + currency, with an optional prefix (e.g. \"from\") and unit (e.g. \"/box\"). Shared by cakes and cafés."
+  },
+  "options": {},
+  "attributes": {
+    "amount": {
+      "type": "decimal",
+      "required": true,
+      "min": 0
+    },
+    "currency": {
+      "type": "enumeration",
+      "enum": ["EUR", "USD"],
+      "default": "EUR"
+    },
+    "pricePrefix": {
+      "type": "string"
+    },
+    "priceUnit": {
+      "type": "string"
+    },
+    "available": {
+      "type": "boolean",
+      "default": true
+    }
+  }
+}

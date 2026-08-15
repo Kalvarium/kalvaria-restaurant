@@ -16,21 +16,10 @@
         "brown"
       ]
     },
-    "heading": {
-      "type": "string"
-    },
-    "intro": {
-      "type": "text"
-    },
     "cakes": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::cake.cake"
-    },
-    "limit": {
-      "type": "integer",
-      "default": 6,
-      "min": 1
     },
     "ctaHeading": {
       "type": "string"

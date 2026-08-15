@@ -84,8 +84,8 @@ export async function renderPage(slug: string): Promise<ReactNode> {
     (s) => s.__component === SectionComponent.Form && (s.fields ?? []).some((f) => f.type === "cakes"),
   );
   const [cakes, cafes, formCakes] = await Promise.all([
-    needsCakes ? getGridCakes(6, locale) : Promise.resolve([]),
-    needsCafes ? getGridCafes(8, locale) : Promise.resolve([]),
+    needsCakes ? getGridCakes(locale) : Promise.resolve([]),
+    needsCafes ? getGridCafes(locale) : Promise.resolve([]),
     needsFormCakes ? getCakes(locale) : Promise.resolve([]),
   ]);
 

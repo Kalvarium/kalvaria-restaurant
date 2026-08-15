@@ -16,32 +16,10 @@
         "brown"
       ]
     },
-    "heading": {
-      "type": "string"
-    },
-    "intro": {
-      "type": "text"
-    },
     "cafes": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::cafe.cafe"
-    },
-    "limit": {
-      "type": "integer",
-      "default": 8,
-      "min": 1
-    },
-    "ctaHeading": {
-      "type": "string"
-    },
-    "ctaBody": {
-      "type": "text"
-    },
-    "ctaButton": {
-      "type": "component",
-      "component": "shared.link",
-      "repeatable": false
     },
     "reserveLabel": {
       "type": "string",

@@ -9,9 +9,15 @@ const CURRENCY: Record<string, { symbol: string; prefix: boolean }> = {
   USD: { symbol: "$", prefix: true },
 };
 
-export function formatPrice(price: number, currency: string, prefix?: string, unit?: string): string {
-  const amount = Number.isInteger(price) ? String(price) : price.toFixed(2);
-  const c = CURRENCY[currency];
-  const money = c ? (c.prefix ? `${c.symbol}${amount}` : `${amount} ${c.symbol}`) : `${amount} ${currency}`;
-  return `${prefix ? `${prefix} ` : ""}${money}${unit ?? ""}`;
+export function formatPrice(p: {
+  amount: number;
+  currency: string;
+  pricePrefix?: string;
+  priceUnit?: string;
+}): string {
+  const n = Number(p.amount);
+  const amount = Number.isInteger(n) ? String(n) : n.toFixed(2);
+  const c = CURRENCY[p.currency];
+  const money = c ? (c.prefix ? `${c.symbol}${amount}` : `${amount} ${c.symbol}`) : `${amount} ${p.currency}`;
+  return `${p.pricePrefix ? `${p.pricePrefix} ` : ""}${money}${p.priceUnit ?? ""}`;
 }

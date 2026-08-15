@@ -1,0 +1,204 @@
+{
+  "cakes": {
+    "emdqyvk7pnqu7xbpjrgme63x": {
+      "documentId": "emdqyvk7pnqu7xbpjrgme63x",
+      "name": {
+        "en": "Homemade Linzer Cookies",
+        "sk": "Domáce linecké koláčiky"
+      },
+      "price": 12,
+      "currency": "EUR",
+      "available": true,
+      "pricePrefix": {
+        "en": "from",
+        "sk": "od"
+      },
+      "priceUnit": {
+        "en": " / box",
+        "sk": " / balenie"
+      }
+    },
+    "vfk28v53tjtllv3bamgjqb6g": {
+      "documentId": "vfk28v53tjtllv3bamgjqb6g",
+      "name": {
+        "en": "Poppy Seed Cake",
+        "sk": "Maková torta"
+      },
+      "price": 28,
+      "currency": "EUR",
+      "available": true,
+      "pricePrefix": {
+        "en": "from",
+        "sk": "od"
+      },
+      "priceUnit": {
+        "en": null,
+        "sk": null
+      }
+    },
+    "ye1b7ksespkksgzo2z4i7loy": {
+      "documentId": "ye1b7ksespkksgzo2z4i7loy",
+      "name": {
+        "en": "Seasonal Mini Desserts",
+        "sk": "Sezónne mini dezerty"
+      },
+      "price": 4.5,
+      "currency": "EUR",
+      "available": true,
+      "pricePrefix": {
+        "en": "from",
+        "sk": "od"
+      },
+      "priceUnit": {
+        "en": " / pc",
+        "sk": " / ks"
+      }
+    },
+    "i7r2kppngl9cqi9xnfcs7snz": {
+      "documentId": "i7r2kppngl9cqi9xnfcs7snz",
+      "name": {
+        "en": "Walnut Chocolate Cake",
+        "sk": "Orechovo-čokoládová torta"
+      },
+      "price": 32,
+      "currency": "EUR",
+      "available": true,
+      "pricePrefix": {
+        "en": "from",
+        "sk": "od"
+      },
+      "priceUnit": {
+        "en": null,
+        "sk": null
+      }
+    },
+    "m456sl57ch7z0zbsuctv1tbb": {
+      "documentId": "m456sl57ch7z0zbsuctv1tbb",
+      "name": {
+        "en": "Poppy Seed & Walnut Bundt Cake",
+        "sk": "Makovo-orechová bábovka"
+      },
+      "price": 18,
+      "currency": "EUR",
+      "available": true,
+      "pricePrefix": {
+        "en": "from",
+        "sk": "od"
+      },
+      "priceUnit": {
+        "en": null,
+        "sk": null
+      }
+    }
+  },
+  "cafes": {
+    "m202m782r0bra2ljm0u4bhbd": {
+      "documentId": "m202m782r0bra2ljm0u4bhbd",
+      "name": {
+        "en": "Latte & Milk Coffee",
+        "sk": "Latte & mliečna káva"
+      },
+      "price": 3.5,
+      "currency": "EUR",
+      "available": true,
+      "pricePrefix": {
+        "en": "from",
+        "sk": "od "
+      },
+      "priceUnit": {
+        "en": null,
+        "sk": null
+      }
+    },
+    "dutho8n40b5tcpjvkyzg2y62": {
+      "documentId": "dutho8n40b5tcpjvkyzg2y62",
+      "name": {
+        "en": "Single-Origin Coffee",
+        "sk": "Plantážna káva"
+      },
+      "price": 2.8,
+      "currency": "EUR",
+      "available": true,
+      "pricePrefix": {
+        "en": "from",
+        "sk": "od"
+      },
+      "priceUnit": {
+        "en": null,
+        "sk": null
+      }
+    },
+    "phqv43ac97yq6xizn2lg4u28": {
+      "documentId": "phqv43ac97yq6xizn2lg4u28",
+      "name": {
+        "en": "Teas & Matcha",
+        "sk": "Čaje & matcha"
+      },
+      "price": 3.2,
+      "currency": "EUR",
+      "available": true,
+      "pricePrefix": {
+        "en": "from ",
+        "sk": "od"
+      },
+      "priceUnit": {
+        "en": null,
+        "sk": null
+      }
+    },
+    "sd0yk8figvooz4f0lcbs78fi": {
+      "documentId": "sd0yk8figvooz4f0lcbs78fi",
+      "name": {
+        "en": "Homemade Lemonades & Iced Teas",
+        "sk": "Domáce limonády & ľadové čaje"
+      },
+      "price": 3.9,
+      "currency": "EUR",
+      "available": true,
+      "pricePrefix": {
+        "en": "from",
+        "sk": "od"
+      },
+      "priceUnit": {
+        "en": null,
+        "sk": null
+      }
+    },
+    "qp0vj3oerxbk3yebxreje00i": {
+      "documentId": "qp0vj3oerxbk3yebxreje00i",
+      "name": {
+        "en": "Soft-Serve Ice Cream",
+        "sk": "Točená zmrzlina"
+      },
+      "price": 2.5,
+      "currency": "EUR",
+      "available": true,
+      "pricePrefix": {
+        "en": "from",
+        "sk": "od"
+      },
+      "priceUnit": {
+        "en": null,
+        "sk": null
+      }
+    },
+    "ni01blp7xo86o8rn2sbd120k": {
+      "documentId": "ni01blp7xo86o8rn2sbd120k",
+      "name": {
+        "en": "Hot Chocolate",
+        "sk": "Horúca čokoláda"
+      },
+      "price": 3.9,
+      "currency": "EUR",
+      "available": true,
+      "pricePrefix": {
+        "en": "from",
+        "sk": "od "
+      },
+      "priceUnit": {
+        "en": null,
+        "sk": null
+      }
+    }
+  }
+}

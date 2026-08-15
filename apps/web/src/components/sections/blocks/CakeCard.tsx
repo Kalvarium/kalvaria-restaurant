@@ -60,7 +60,7 @@ export function CakeCard({ cake, orderHref, orderLabel, callLabel, allergensLabe
   const img = media(cake.image?.[0]?.url) ?? "";
   const alt = cake.image?.[0]?.alternativeText ?? cake.name;
   const badge = cake.badge ? { label: cake.badge.label, variant: cake.badge.variant } : undefined;
-  const price = formatPrice(cake.price, cake.currency, cake.pricePrefix, cake.priceUnit);
+  const price = cake.price ? formatPrice(cake.price) : null;
 
   return (
     <>
@@ -124,7 +124,7 @@ export function CakeCard({ cake, orderHref, orderLabel, callLabel, allergensLabe
                 </div>
 
                 <hr className="border-line" />
-                <p className="font-display-alt text-hero text-rust-500 font-bold">{price}</p>
+                {price && <p className="font-display-alt text-hero text-rust-500 font-bold">{price}</p>}
 
                 {cake.allergens && (
                   <>

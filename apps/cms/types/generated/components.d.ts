@@ -13,23 +13,10 @@ export interface SectionsCafeGrid extends Struct.ComponentSchema {
     >;
     cafes: Schema.Attribute.Relation<'oneToMany', 'api::cafe.cafe'>;
     callLabel: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Call'>;
-    ctaBody: Schema.Attribute.Text;
-    ctaButton: Schema.Attribute.Component<'shared.link', false>;
-    ctaHeading: Schema.Attribute.String;
     emptyText: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'We are currently preparing our menu.'>;
     favoriteLabel: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'Favorite'>;
-    heading: Schema.Attribute.String;
-    intro: Schema.Attribute.Text;
-    limit: Schema.Attribute.Integer &
-      Schema.Attribute.SetMinMax<
-        {
-          min: 1;
-        },
-        number
-      > &
-      Schema.Attribute.DefaultTo<8>;
     reserveLabel: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'Reserve a table'>;
   };
@@ -55,16 +42,6 @@ export interface SectionsCakeGrid extends Struct.ComponentSchema {
     ctaHeading: Schema.Attribute.String;
     emptyText: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'We are currently preparing an offer.'>;
-    heading: Schema.Attribute.String;
-    intro: Schema.Attribute.Text;
-    limit: Schema.Attribute.Integer &
-      Schema.Attribute.SetMinMax<
-        {
-          min: 1;
-        },
-        number
-      > &
-      Schema.Attribute.DefaultTo<6>;
     orderLabel: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Order'>;
   };
 }
@@ -202,7 +179,7 @@ export interface SectionsHero extends Struct.ComponentSchema {
 export interface SectionsMap extends Struct.ComponentSchema {
   collectionName: 'components_sections_maps';
   info: {
-    description: 'A full-width embedded map. Paste a Google Maps embed URL (Share \u2192 Embed a map \u2192 the src of the iframe).';
+    description: 'A full-width embedded map. The URL comes from General Info (contact \u2192 mapUrl) \u2014 paste a Google Maps embed URL there (Share \u2192 Embed a map \u2192 the src of the iframe).';
     displayName: 'Map';
     icon: 'pinMap';
   };
@@ -210,7 +187,6 @@ export interface SectionsMap extends Struct.ComponentSchema {
     background: Schema.Attribute.Enumeration<
       ['surface', 'cream', 'green', 'brown']
     >;
-    embedUrl: Schema.Attribute.String & Schema.Attribute.Required;
   };
 }
 
@@ -445,6 +421,30 @@ export interface SharedOpeningHours extends Struct.ComponentSchema {
   };
 }
 
+export interface SharedPrice extends Struct.ComponentSchema {
+  collectionName: 'components_shared_prices';
+  info: {
+    description: 'A menu price: amount + currency, with an optional prefix (e.g. "from") and unit (e.g. "/box"). Shared by cakes and caf\u00E9s.';
+    displayName: 'Price';
+    icon: 'shoppingCart';
+  };
+  attributes: {
+    amount: Schema.Attribute.Decimal &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      >;
+    available: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    currency: Schema.Attribute.Enumeration<['EUR', 'USD']> &
+      Schema.Attribute.DefaultTo<'EUR'>;
+    pricePrefix: Schema.Attribute.String;
+    priceUnit: Schema.Attribute.String;
+  };
+}
+
 export interface SharedSeo extends Struct.ComponentSchema {
   collectionName: 'components_shared_seos';
   info: {
@@ -506,6 +506,7 @@ declare module '@strapi/strapi' {
       'shared.link': SharedLink;
       'shared.list-item': SharedListItem;
       'shared.opening-hours': SharedOpeningHours;
+      'shared.price': SharedPrice;
       'shared.seo': SharedSeo;
       'shared.social-link': SharedSocialLink;
     }
