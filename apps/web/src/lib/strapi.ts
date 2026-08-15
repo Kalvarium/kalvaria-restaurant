@@ -383,7 +383,7 @@ export interface MapSection {
   __component: typeof SectionComponent.Map;
   id: number;
   background?: SectionBackground;
-  embedUrl: string;
+  /** The map URL comes from General Info (contact.mapUrl). */
 }
 export interface VenueInfoSection {
   __component: typeof SectionComponent.VenueInfo;

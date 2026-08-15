@@ -3,17 +3,13 @@
   "info": {
     "displayName": "Map",
     "icon": "pinMap",
-    "description": "A full-width embedded map. Paste a Google Maps embed URL (Share → Embed a map → the src of the iframe)."
+    "description": "A full-width embedded map. The URL comes from General Info (contact → mapUrl) — paste a Google Maps embed URL there (Share → Embed a map → the src of the iframe)."
   },
   "options": {},
   "attributes": {
     "background": {
       "type": "enumeration",
       "enum": ["surface", "cream", "green", "brown"]
-    },
-    "embedUrl": {
-      "type": "string",
-      "required": true
     }
   }
 }

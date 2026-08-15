@@ -61,7 +61,7 @@ export function Sections({
           case SectionComponent.CardGrid:
             return <CardGrid key={s.id} s={s} generalInfo={generalInfo} />;
           case SectionComponent.Map:
-            return <MapEmbed key={s.id} s={s} />;
+            return <MapEmbed key={s.id} s={s} generalInfo={generalInfo} />;
           case SectionComponent.Form:
             return <Form key={s.id} s={s} cakes={formCakes} />;
           default:
