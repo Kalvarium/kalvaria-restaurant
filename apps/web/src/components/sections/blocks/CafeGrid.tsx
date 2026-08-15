@@ -14,7 +14,7 @@ export function CafeGrid({
   phone?: string;
   reserveHref?: string;
 }) {
-  // Editor-curated items take priority; otherwise fall back to the featured list.
+  // Editor-curated items take priority; otherwise fall back to all available items.
   const source = s.cafes && s.cafes.length > 0 ? s.cafes : cafes;
   // Wide tiles are full-width overlay banners — keep them at the end of the grid.
   const items = source

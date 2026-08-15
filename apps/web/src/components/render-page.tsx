@@ -6,7 +6,7 @@ import { Header } from "@/components/sections/Header";
 import { ScrollProgress } from "@/components/sections/ScrollProgress";
 import { Footer } from "@/components/sections/Footer";
 import { Sections } from "@/components/sections/Sections";
-import { getGeneralInfo, getCakes, getFeaturedCafes, getFeaturedCakes, getGlobal, getPage, media, PageSlug, SectionComponent } from "@/lib/strapi";
+import { getGeneralInfo, getCakes, getGridCafes, getGridCakes, getGlobal, getPage, media, PageSlug, SectionComponent } from "@/lib/strapi";
 import { ogImages } from "@/lib/site";
 import { DEFAULT_LOCALE, isLocale, LOCALE_COOKIE, type Locale } from "@/lib/i18n";
 
@@ -84,8 +84,8 @@ export async function renderPage(slug: string): Promise<ReactNode> {
     (s) => s.__component === SectionComponent.Form && (s.fields ?? []).some((f) => f.type === "cakes"),
   );
   const [cakes, cafes, formCakes] = await Promise.all([
-    needsCakes ? getFeaturedCakes(6, locale) : Promise.resolve([]),
-    needsCafes ? getFeaturedCafes(8, locale) : Promise.resolve([]),
+    needsCakes ? getGridCakes(6, locale) : Promise.resolve([]),
+    needsCafes ? getGridCafes(8, locale) : Promise.resolve([]),
     needsFormCakes ? getCakes(locale) : Promise.resolve([]),
   ]);
 

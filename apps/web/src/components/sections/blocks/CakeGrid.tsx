@@ -4,7 +4,7 @@ import { SectionBackground, sectionBackground } from "@/lib/section-background";
 import { CakeCard } from "./CakeCard";
 
 export function CakeGrid({ s, cakes, phone }: { s: CakeGridSection; cakes: Cake[]; phone?: string }) {
-  // Editor-curated cakes take priority; otherwise fall back to the featured list.
+  // Editor-curated cakes take priority; otherwise fall back to all available cakes.
   const source = s.cakes && s.cakes.length > 0 ? s.cakes : cakes;
   const items = source.slice(0, s.limit ?? 6);
   const cta = s.ctaHeading || s.ctaButton;

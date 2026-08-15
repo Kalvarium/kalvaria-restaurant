@@ -3,6 +3,11 @@ import type { Core } from '@strapi/strapi';
 const config = ({ env }: Core.Config.Shared.ConfigParams): Core.Config.Admin => ({
   auth: {
     secret: env('ADMIN_JWT_SECRET')!,
+    // Admin session length. "Remember me" only chooses where the token is stored
+    // (localStorage vs sessionStorage); this sets how long it stays valid.
+    options: {
+      expiresIn: env('ADMIN_JWT_EXPIRES_IN', '30d'),
+    },
   },
   apiToken: {
     salt: env('API_TOKEN_SALT')!,

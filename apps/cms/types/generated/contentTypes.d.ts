@@ -446,7 +446,7 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
 export interface ApiCafeCafe extends Struct.CollectionTypeSchema {
   collectionName: 'cafes';
   info: {
-    description: "The caf\u00E9 menu \u2014 one entry per drink or item (coffee, hot chocolate, tea\u2026). Holds the photo, name, description, price and a favourite note. Display only, like the Cake catalog. Edited once here, items appear anywhere a Cafe Grid block is placed. Use 'available' to hide an item without deleting it, and 'featured' to surface it in featured grids.";
+    description: "The caf\u00E9 menu \u2014 one entry per drink or item (coffee, hot chocolate, tea\u2026). Holds the photo, name, description, price and a favourite note. Display only, like the Cake catalog. Edited once here, items appear anywhere a Cafe Grid block is placed. Use 'available' to hide an item without deleting it.";
     displayName: 'Cafe';
     pluralName: 'cafes';
     singularName: 'cafe';
@@ -495,13 +495,6 @@ export interface ApiCafeCafe extends Struct.CollectionTypeSchema {
           localized: true;
         };
       }>;
-    featured: Schema.Attribute.Boolean &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: false;
-        };
-      }> &
-      Schema.Attribute.DefaultTo<false>;
     image: Schema.Attribute.Media<'images', true> &
       Schema.Attribute.Required &
       Schema.Attribute.SetPluginOptions<{
@@ -566,7 +559,7 @@ export interface ApiCafeCafe extends Struct.CollectionTypeSchema {
 export interface ApiCakeCake extends Struct.CollectionTypeSchema {
   collectionName: 'cakes';
   info: {
-    description: "The product catalog \u2014 one entry per cake or item the caf\u00E9 offers (Medovn\u00EDk, Pun\u010Dov\u00E1 torta, coffee\u2026). Holds the photos, name, description and price. Display only: cakes are shown on the site but not sold online. Edited once here, they appear anywhere a Cake Grid block is placed. Use 'available' to hide an item without deleting it, and 'featured' to surface it in featured grids.";
+    description: "The product catalog \u2014 one entry per cake or item the caf\u00E9 offers (Medovn\u00EDk, Pun\u010Dov\u00E1 torta, coffee\u2026). Holds the photos, name, description and price. Display only: cakes are shown on the site but not sold online. Edited once here, they appear anywhere a Cake Grid block is placed. Use 'available' to hide an item without deleting it.";
     displayName: 'Cake';
     pluralName: 'cakes';
     singularName: 'cake';
@@ -615,13 +608,6 @@ export interface ApiCakeCake extends Struct.CollectionTypeSchema {
           localized: true;
         };
       }>;
-    featured: Schema.Attribute.Boolean &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: false;
-        };
-      }> &
-      Schema.Attribute.DefaultTo<false>;
     image: Schema.Attribute.Media<'images', true> &
       Schema.Attribute.Required &
       Schema.Attribute.SetPluginOptions<{

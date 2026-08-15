@@ -5,7 +5,7 @@
     "singularName": "cafe",
     "pluralName": "cafes",
     "displayName": "Cafe",
-    "description": "The café menu — one entry per drink or item (coffee, hot chocolate, tea…). Holds the photo, name, description, price and a favourite note. Display only, like the Cake catalog. Edited once here, items appear anywhere a Cafe Grid block is placed. Use 'available' to hide an item without deleting it, and 'featured' to surface it in featured grids."
+    "description": "The café menu — one entry per drink or item (coffee, hot chocolate, tea…). Holds the photo, name, description, price and a favourite note. Display only, like the Cake catalog. Edited once here, items appear anywhere a Cafe Grid block is placed. Use 'available' to hide an item without deleting it."
   },
   "options": {
     "draftAndPublish": true
@@ -95,15 +95,6 @@
       "pluginOptions": {
         "i18n": {
           "localized": true
-        }
-      }
-    },
-    "featured": {
-      "type": "boolean",
-      "default": false,
-      "pluginOptions": {
-        "i18n": {
-          "localized": false
         }
       }
     },

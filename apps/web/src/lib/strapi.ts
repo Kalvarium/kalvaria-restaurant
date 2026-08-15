@@ -160,7 +160,7 @@ export interface CakeGridSection {
   background?: SectionBackground;
   heading?: string;
   intro?: string;
-  /** Editor-curated cakes for this grid (drag to order). Empty → featured cakes. */
+  /** Editor-curated cakes for this grid (drag to order). Empty → all available cakes. */
   cakes?: Cake[];
   limit?: number;
   /** Optional "order a cake" card shown as the last grid cell. */
@@ -179,7 +179,7 @@ export interface CafeGridSection {
   background?: SectionBackground;
   heading?: string;
   intro?: string;
-  /** Editor-curated café items (drag to order). Empty → featured items. */
+  /** Editor-curated café items (drag to order). Empty → all available items. */
   cafes?: Cafe[];
   limit?: number;
   /** Optional "order" card shown as the last grid cell. */
@@ -433,7 +433,6 @@ export interface Cake {
   priceUnit?: string;
   image?: StrapiMedia[];
   badge?: { label: string; variant?: BadgeVariant } | null;
-  featured: boolean;
 }
 
 // ---------- cafe menu ----------
@@ -449,7 +448,6 @@ export interface Cafe {
   priceUnit?: string;
   image?: StrapiMedia[];
   badge?: { label: string; variant?: BadgeVariant } | null;
-  featured: boolean;
   /** Render as a wide, image-only overlay tile spanning 2 columns (e.g. Soft-Serve, Lemonades). */
   wide?: boolean;
 }
@@ -558,10 +556,10 @@ export async function getPage(slug: string, locale: Locale = DEFAULT_LOCALE): Pr
   return null;
 }
 
-export async function getFeaturedCakes(limit = 6, locale: Locale = DEFAULT_LOCALE): Promise<Cake[]> {
+/** Available cakes for a grid's fallback list (used when the editor hasn't curated one). */
+export async function getGridCakes(limit = 6, locale: Locale = DEFAULT_LOCALE): Promise<Cake[]> {
   const qs = (loc: Locale) =>
     [
-      "filters[featured][$eq]=true",
       "filters[available][$eq]=true",
       "populate[image]=true",
       "populate[badge]=true",
@@ -587,10 +585,10 @@ export async function getCakes(locale: Locale = DEFAULT_LOCALE): Promise<Cake[]>
   return data ?? [];
 }
 
-export async function getFeaturedCafes(limit = 8, locale: Locale = DEFAULT_LOCALE): Promise<Cafe[]> {
+/** Available café items for a grid's fallback list (used when the editor hasn't curated one). */
+export async function getGridCafes(limit = 8, locale: Locale = DEFAULT_LOCALE): Promise<Cafe[]> {
   const qs = (loc: Locale) =>
     [
-      "filters[featured][$eq]=true",
       "filters[available][$eq]=true",
       "populate[image]=true",
       "populate[badge]=true",

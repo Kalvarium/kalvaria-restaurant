@@ -3,7 +3,7 @@ import type { Schema, Struct } from '@strapi/strapi';
 export interface SectionsCafeGrid extends Struct.ComponentSchema {
   collectionName: 'components_sections_cafe_grids';
   info: {
-    description: "Shows caf\u00E9 menu items from the Cafe collection. Pick specific items in 'cafes' to curate and order them; leave it empty to fall back to the featured items.";
+    description: "Shows caf\u00E9 menu items from the Cafe collection. Pick specific items in 'cafes' to curate and order them; leave it empty to fall back to all available items.";
     displayName: 'Cafe Grid';
     icon: 'grid';
   };
@@ -38,7 +38,7 @@ export interface SectionsCafeGrid extends Struct.ComponentSchema {
 export interface SectionsCakeGrid extends Struct.ComponentSchema {
   collectionName: 'components_sections_cake_grids';
   info: {
-    description: "Shows cakes from the catalog. Pick specific cakes in 'cakes' to curate and order them; leave it empty to fall back to the featured cakes.";
+    description: "Shows cakes from the catalog. Pick specific cakes in 'cakes' to curate and order them; leave it empty to fall back to all available cakes.";
     displayName: 'Cake Grid';
     icon: 'grid';
   };

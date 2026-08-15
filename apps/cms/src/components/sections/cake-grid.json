@@ -3,7 +3,7 @@
   "info": {
     "displayName": "Cake Grid",
     "icon": "grid",
-    "description": "Shows cakes from the catalog. Pick specific cakes in 'cakes' to curate and order them; leave it empty to fall back to the featured cakes."
+    "description": "Shows cakes from the catalog. Pick specific cakes in 'cakes' to curate and order them; leave it empty to fall back to all available cakes."
   },
   "options": {},
   "attributes": {
