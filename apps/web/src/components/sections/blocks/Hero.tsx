@@ -31,13 +31,12 @@ export function Hero({ s }: { s: HeroSection }) {
   const scrim = scrimBg[s.scrim ?? "medium"];
   return (
     <section
-      className={`relative flex items-end text-cream ${heroHeight[s.size ?? HeroSize.Full]}`}
+      className={`relative flex items-end bg-[position:22%_center] text-cream sm:bg-[position:center] ${heroHeight[s.size ?? HeroSize.Full]}`}
       style={
         bg
           ? {
               backgroundImage: scrim ? `${scrim}, url("${bg}")` : `url("${bg}")`,
               backgroundSize: "cover",
-              backgroundPosition: "center",
             }
           : { background: "#2b2421" }
       }
