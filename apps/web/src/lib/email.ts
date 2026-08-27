@@ -71,9 +71,9 @@ const TEMPLATES: Record<"en" | "sk", Record<FormRecipient, Wording>> = {
       subject: "Objednávka torty",
       intro: "Cez webovú stránku bola odoslaná nová objednávka torty:",
       footer: FOOTER_SK,
-      customerSubject: "Vaša objednávka torty – Kalvárium 1910",
+      customerSubject: "Vaša objednávka torty - Kalvárium 1910",
       customerGreeting: "Dobrý deň {name},\n\nďakujeme za vašu objednávku torty. Prijali sme:",
-      customerClosing: "Čoskoro potvrdíme dostupnosť a vyzdvihnutie.\n\nS pozdravom,\nKalvárium 1910",
+      customerClosing: "Ďakujeme za rezerváciu, ktorú týmto potvrdzujeme. Tešíme sa na Vašu návštevu.\n\nS pozdravom,\nKalvárium 1910",
     },
   },
 };
