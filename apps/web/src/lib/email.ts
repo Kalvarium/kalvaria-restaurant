@@ -60,7 +60,7 @@ const TEMPLATES: Record<"en" | "sk", Record<FormRecipient, Wording>> = {
       customerClosing: "Čoskoro sa vám ozveme s potvrdením.\n\nS pozdravom,\nKalvárium 1910",
     },
     upstairs: {
-      subject: "Dopyt – priestor Hore",
+      subject: "Dopyt - priestor Hore",
       intro: "Cez webovú stránku bol odoslaný nový dopyt na priestor Hore:",
       footer: FOOTER_SK,
       customerSubject: "Váš dopyt – Kalvárium 1910 (priestor Hore)",
