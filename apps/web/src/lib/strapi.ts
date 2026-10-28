@@ -579,6 +579,48 @@ export async function getCakes(locale: Locale = DEFAULT_LOCALE): Promise<Cake[]>
   return (data ?? []).filter((c) => c.price?.available !== false);
 }
 
+// ---------- event popup ----------
+/** A promotional popup shown when the site opens (the `event` collection). */
+export interface Event {
+  documentId: string;
+  /** Editor switch — only events with this on are shown. */
+  showEvent: boolean;
+  image?: StrapiMedia | null;
+  /** Optional schedule window; unset = no limit on that side. */
+  startDate?: string | null;
+  endDate?: string | null;
+  /** Changes whenever the entry is edited — used to re-show the popup after an edit. */
+  updatedAt: string;
+}
+
+/**
+ * Events to show right now: `showEvent` on, published, inside their start/end
+ * window, with an image — latest start date first. Several → the popup slides
+ * through them. Falls back to the default locale.
+ */
+export async function getActiveEvents(locale: Locale = DEFAULT_LOCALE): Promise<Event[]> {
+  const qs = (loc: Locale) =>
+    [
+      "filters[showEvent][$eq]=true",
+      "populate[image]=true",
+      "sort[0]=startDate:desc",
+      "sort[1]=updatedAt:desc",
+      "pagination[limit]=20",
+      `locale=${loc}`,
+    ].join("&");
+  const now = Date.now();
+  const active = (events: Event[] | null) =>
+    (events ?? []).filter(
+      (e) =>
+        e.image?.url &&
+        (!e.startDate || Date.parse(e.startDate) <= now) &&
+        (!e.endDate || Date.parse(e.endDate) > now),
+    );
+  const events = active(await strapiGet<Event[]>(`events?${qs(locale)}`));
+  if (events.length || locale === DEFAULT_LOCALE) return events;
+  return active(await strapiGet<Event[]>(`events?${qs(DEFAULT_LOCALE)}`));
+}
+
 /** Available café items for a grid's fallback list (used when the editor hasn't curated one). */
 export async function getGridCafes(locale: Locale = DEFAULT_LOCALE): Promise<Cafe[]> {
   const qs = (loc: Locale) =>

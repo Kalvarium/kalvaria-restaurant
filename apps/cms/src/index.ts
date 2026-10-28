@@ -1,5 +1,9 @@
 import fs from 'fs';
 import path from 'path';
+import {
+  registerEventDateValidation,
+  scheduleExpiredEventSwitch,
+} from './api/event/event-rules';
 
 /**
  * One-time price backfill. After moving price/available into the `shared.price`
@@ -71,6 +75,8 @@ export default {
    * live on the volume. Recreated on each boot; a no-op locally (no volume dir).
    */
   register({ strapi }: { strapi: any }) {
+    registerEventDateValidation(strapi);
+
     try {
       const target = process.env.UPLOADS_DIR || '/data/uploads';
       const volumeDir = path.dirname(target); // e.g. /data
@@ -91,5 +97,6 @@ export default {
   },
   async bootstrap({ strapi }: { strapi: any }) {
     await seedPrices(strapi).catch((e: unknown) => strapi.log.error(`SEED_PRICES failed: ${e}`));
+    await scheduleExpiredEventSwitch(strapi);
   },
 };

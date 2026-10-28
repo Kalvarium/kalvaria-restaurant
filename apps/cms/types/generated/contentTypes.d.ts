@@ -626,6 +626,62 @@ export interface ApiEmailEmail extends Struct.SingleTypeSchema {
   };
 }
 
+export interface ApiEventEvent extends Struct.CollectionTypeSchema {
+  collectionName: 'events';
+  info: {
+    description: "Promotional popup shown when a visitor opens the website \u2014 one entry per event or promotion: the image (poster), a 'showEvent' switch and an optional start/end date. An event is shown when 'showEvent' is on, it is published and today is inside its dates. If several are shown at once, they play as a slider (latest start date first).";
+    displayName: 'Event';
+    pluralName: 'events';
+    singularName: 'event';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    endDate: Schema.Attribute.DateTime &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    image: Schema.Attribute.Media<'images'> &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::event.event'>;
+    publishedAt: Schema.Attribute.DateTime;
+    showEvent: Schema.Attribute.Boolean &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }> &
+      Schema.Attribute.DefaultTo<false>;
+    startDate: Schema.Attribute.DateTime &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiGeneralInfoGeneralInfo extends Struct.SingleTypeSchema {
   collectionName: 'contacts';
   info: {
@@ -1332,6 +1388,7 @@ declare module '@strapi/strapi' {
       'api::cafe.cafe': ApiCafeCafe;
       'api::cake.cake': ApiCakeCake;
       'api::email.email': ApiEmailEmail;
+      'api::event.event': ApiEventEvent;
       'api::general-info.general-info': ApiGeneralInfoGeneralInfo;
       'api::global.global': ApiGlobalGlobal;
       'api::page.page': ApiPagePage;

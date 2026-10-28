@@ -5,8 +5,9 @@ import { notFound } from "next/navigation";
 import { Header } from "@/components/sections/Header";
 import { ScrollProgress } from "@/components/sections/ScrollProgress";
 import { Footer } from "@/components/sections/Footer";
+import { EventPopup } from "@/components/sections/EventPopup";
 import { Sections } from "@/components/sections/Sections";
-import { getGeneralInfo, getCakes, getGridCafes, getGridCakes, getGlobal, getPage, media, PageSlug, SectionComponent } from "@/lib/strapi";
+import { getActiveEvents, getGeneralInfo, getCakes, getGridCafes, getGridCakes, getGlobal, getPage, media, PageSlug, SectionComponent } from "@/lib/strapi";
 import { ogImages } from "@/lib/site";
 import { DEFAULT_LOCALE, isLocale, LOCALE_COOKIE, type Locale } from "@/lib/i18n";
 
@@ -59,10 +60,11 @@ export async function pageMetadata(slug: string): Promise<Metadata> {
  */
 export async function renderPage(slug: string): Promise<ReactNode> {
   const locale = await resolveLocale();
-  const [global, page, generalInfo] = await Promise.all([
+  const [global, page, generalInfo, events] = await Promise.all([
     getGlobal(locale),
     getPage(slug, locale),
     getGeneralInfo(),
+    getActiveEvents(locale),
   ]);
 
   if (!global) {
@@ -116,6 +118,7 @@ export async function renderPage(slug: string): Promise<ReactNode> {
         />
       </div>
       <Footer global={global} socialLinks={generalInfo?.socialLinks} />
+      {events.length > 0 && <EventPopup events={events} />}
     </>
   );
 }

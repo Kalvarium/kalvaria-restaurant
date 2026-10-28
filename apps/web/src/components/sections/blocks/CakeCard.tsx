@@ -139,7 +139,7 @@ export function CakeCard({ cake, orderHref, orderLabel, callLabel, allergensLabe
                 )}
 
                 {(orderHref || phone) && (
-                  <div className="mt-2 flex gap-4">
+                  <div className="mt-2 flex flex-wrap gap-4">
                     {orderHref &&
                       (orderHref.startsWith("#") ? (
                         // Dialog order form: close this detail dialog and open the
@@ -150,17 +150,17 @@ export function CakeCard({ cake, orderHref, orderLabel, callLabel, allergensLabe
                             setOpen(false);
                             openCakeOrder(cake.name);
                           }}
-                          className="flex-1"
+                          className="flex-auto whitespace-nowrap"
                         >
                           {orderLabel ?? "Order"}
                         </Button>
                       ) : (
-                        <Button variant={ButtonVariant.Primary} href={orderHref} className="flex-1">
+                        <Button variant={ButtonVariant.Primary} href={orderHref} className="flex-auto whitespace-nowrap">
                           {orderLabel ?? "Order"}
                         </Button>
                       ))}
                     {phone && (
-                      <Button variant={ButtonVariant.Secondary} href={`tel:${phone}`} className="flex-1">
+                      <Button variant={ButtonVariant.Secondary} href={`tel:${phone}`} className="flex-auto whitespace-nowrap">
                         {callLabel ?? "Call"}
                       </Button>
                     )}

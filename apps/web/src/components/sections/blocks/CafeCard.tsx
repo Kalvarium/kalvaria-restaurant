@@ -177,12 +177,12 @@ export function CafeCard({ cafe, reserveHref, reserveLabel, callLabel, favoriteL
                 {(reserveHref || phone) && (
                   <div className="mt-2 flex flex-wrap gap-4">
                     {reserveHref && (
-                      <Button variant={ButtonVariant.Primary} href={reserveHref} className="flex-1 whitespace-nowrap">
+                      <Button variant={ButtonVariant.Primary} href={reserveHref} className="flex-auto whitespace-nowrap">
                         {reserveLabel ?? "Reserve a table"}
                       </Button>
                     )}
                     {phone && (
-                      <Button variant={ButtonVariant.Secondary} href={`tel:${phone}`} className="flex-1 whitespace-nowrap">
+                      <Button variant={ButtonVariant.Secondary} href={`tel:${phone}`} className="flex-auto whitespace-nowrap">
                         {callLabel ?? "Call"}
                       </Button>
                     )}
