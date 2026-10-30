@@ -33,7 +33,8 @@ const controlClass =
  * (landing or reload) — not again when navigating to other pages in the site.
  * The panel is ~82% of the viewport's width and height (≈ 2/3 of the screen
  * area); each poster is shown whole (`object-contain`) with no background or
- * frame around it, so only the image itself is visible. Several events slide through
+ * frame around it, so only the image itself is visible; the ✕ sits on the
+ * image's top-right corner. Several events slide through
  * automatically (paused on hover/focus, stopping on the last one) with arrows, dots,
  * ←/→ keys and swipe. No wrap-around: the arrow at either end is disabled; with a
  * single event there are no arrows or dots.
@@ -127,16 +128,29 @@ export function EventPopup({ events }: { events: Event[] }) {
                 aria-roledescription={count > 1 ? "slide" : undefined}
                 aria-label={count > 1 ? `${t.slide} ${i + 1} / ${count}` : undefined}
                 aria-hidden={i !== index}
-                className="relative h-full w-full shrink-0 overflow-hidden"
+                inert={i !== index}
+                className="flex h-full w-full shrink-0 items-center justify-center"
               >
                 {src && (
-                  <Image
-                    src={src}
-                    alt={event.image?.alternativeText || t.dialog}
-                    loading="eager"
-                    draggable={false}
-                    className="h-full w-full select-none object-contain"
-                  />
+                  // Shrink-wraps the poster so the ✕ sits on its corner, whatever its aspect ratio.
+                  <div className="relative">
+                    <Image
+                      src={src}
+                      alt={event.image?.alternativeText || t.dialog}
+                      loading="eager"
+                      draggable={false}
+                      className="block max-h-[82dvh] max-w-[82vw] select-none"
+                    />
+                    <button
+                      ref={i === index ? closeRef : undefined}
+                      type="button"
+                      onClick={() => setOpen(false)}
+                      aria-label={t.close}
+                      className={`${controlClass} absolute right-3 top-3 z-10 hover:rotate-90 sm:right-4 sm:top-4`}
+                    >
+                      <Icon name="close" size={22} />
+                    </button>
+                  </div>
                 )}
               </div>
             );
@@ -184,16 +198,6 @@ export function EventPopup({ events }: { events: Event[] }) {
             </div>
           </>
         )}
-
-        <button
-          ref={closeRef}
-          type="button"
-          onClick={() => setOpen(false)}
-          aria-label={t.close}
-          className={`${controlClass} absolute right-3 top-3 z-10 hover:rotate-90 sm:right-4 sm:top-4`}
-        >
-          <Icon name="close" size={22} />
-        </button>
       </div>
     </DialogOverlay>
   );
