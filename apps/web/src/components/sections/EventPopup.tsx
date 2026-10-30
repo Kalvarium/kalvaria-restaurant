@@ -32,8 +32,8 @@ const controlClass =
  * Promotional popup for the active CMS Events, shown once per full page load
  * (landing or reload) — not again when navigating to other pages in the site.
  * The panel is ~82% of the viewport's width and height (≈ 2/3 of the screen
- * area); each poster is shown whole (`object-contain`) over a blurred copy of
- * itself, so any aspect ratio fills the panel. Several events slide through
+ * area); each poster is shown whole (`object-contain`) with no background or
+ * frame around it, so only the image itself is visible. Several events slide through
  * automatically (paused on hover/focus, stopping on the last one) with arrows, dots,
  * ←/→ keys and swipe. No wrap-around: the arrow at either end is disabled; with a
  * single event there are no arrows or dots.
@@ -105,7 +105,7 @@ export function EventPopup({ events }: { events: Event[] }) {
         onMouseLeave={() => setHovered(false)}
         onFocus={(e) => setControlFocused(e.target.matches("[data-slider-control]:focus-visible"))}
         onBlur={() => setControlFocused(false)}
-        className="animate-dialog-panel relative h-[82dvh] w-[82vw] overflow-hidden rounded-sm bg-brown-900 shadow-card"
+        className="animate-dialog-panel relative h-[82dvh] w-[82vw] overflow-hidden"
       >
         <div
           className="flex h-full touch-pan-y transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] motion-reduce:transition-none"
@@ -130,24 +130,13 @@ export function EventPopup({ events }: { events: Event[] }) {
                 className="relative h-full w-full shrink-0 overflow-hidden"
               >
                 {src && (
-                  <>
-                    {/* blurred backdrop of the same image — fills the panel around a non-matching aspect ratio */}
-                    <Image
-                      src={src}
-                      alt=""
-                      aria-hidden="true"
-                      loading="eager"
-                      draggable={false}
-                      className="absolute inset-0 h-full w-full scale-110 object-cover opacity-60 blur-2xl"
-                    />
-                    <Image
-                      src={src}
-                      alt={event.image?.alternativeText || t.dialog}
-                      loading="eager"
-                      draggable={false}
-                      className="relative h-full w-full select-none object-contain"
-                    />
-                  </>
+                  <Image
+                    src={src}
+                    alt={event.image?.alternativeText || t.dialog}
+                    loading="eager"
+                    draggable={false}
+                    className="h-full w-full select-none object-contain"
+                  />
                 )}
               </div>
             );
